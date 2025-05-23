@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['Pengajuan Surat', 'Pengaduan', 'Pendaftaran'])->default('Pendaftaran');
+            $table->enum('type', ['Pengajuan', 'Pengaduan', 'Pendaftaran'])->default('Pendaftaran');
             $table->string('title');
             $table->text('text');
             $table->text('link')->nullable();

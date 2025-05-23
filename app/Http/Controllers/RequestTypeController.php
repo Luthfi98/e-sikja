@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class RequestTypeController extends Controller
 {
+    public function __construct()
+    {
+        if (Auth::user()->role != 'admin') {
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
+    }
     /**
      * Display a listing of the resource.
      */

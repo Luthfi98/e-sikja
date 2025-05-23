@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ResidentController extends Controller
 {
+    public function __construct()
+    {
+        if (Auth::user()->role == 'masyarakat' || ( Auth::user()->role == 'operator' && (request()->routeIs('data-masyarakat.index') === false && request()->routeIs('data-masyarakat.show') === false))) {
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
+    }
     /**
      * Display a listing of the resource.
      */
@@ -27,12 +34,20 @@ class ResidentController extends Controller
                     return $row->rt . '/' . $row->rw;
                 })
                 ->addColumn('aksi', function($row){
+                    $show = '<a href="'.route('data-masyarakat.show', $row->id).'" class="btn btn-sm btn-info"><span class="fa fa-eye"></span></a>';
+                    $edit = '';
+                    $delete = '';
+                    if (Auth::user()->role == 'admin') {
+                        $edit = '<a href="'.route('data-masyarakat.edit', $row->id).'" class="btn btn-sm btn-warning"><span class="fa fa-edit"></span></a>';
+                        $delete = '<form action="'.route('data-masyarakat.destroy', $row->id).'" method="post" class="d-inline" onsubmit="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\');">
+                                    <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
+                                    '.method_field('DELETE').csrf_field().'
+                                </form>';
+                    }
                     return '<div class="btn-group" role="group">
-                            <a href="'.route('data-masyarakat.edit', $row->id).'" class="btn btn-sm btn-warning"><span class="fa fa-edit"></span></a>
-                            <form action="'.route('data-masyarakat.destroy', $row->id).'" method="post" class="d-inline" onsubmit="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\');">
-                                <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
-                                '.method_field('DELETE').csrf_field().'
-                            </form>
+                            '.$show.'
+                            '.$edit.'
+                            '.$delete.'
                         </div>';
                 })
                 ->rawColumns(['aksi'])
@@ -122,7 +137,11 @@ class ResidentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = [
+            'title' => 'Detail Data Masyarakat',
+            'resident' => Resident::findOrFail($id)
+        ];
+        return view('cms.resident.show')->with($data);
     }
 
     /**

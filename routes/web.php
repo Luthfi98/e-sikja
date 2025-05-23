@@ -3,14 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\MyRequestController;
 use App\Http\Controllers\RequestTypeController;
 use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('layouts.cms');
 });
-Route::get('/dashboard', function () {
+Route::get('dashboard', function () {
     return view('layouts.cms');
 });
 
@@ -25,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::prefix('data-masyarakat')->group(function () {
         Route::get('/', [ResidentController::class, 'index'])->name('data-masyarakat.index');
+        Route::get('/show/{id}', [ResidentController::class, 'show'])->name('data-masyarakat.show');
         Route::get('/create', [ResidentController::class, 'create'])->name('data-masyarakat.create');
         Route::post('/store', [ResidentController::class, 'store'])->name('data-masyarakat.store');
         Route::get('/edit/{id}', [ResidentController::class, 'edit'])->name('data-masyarakat.edit');
@@ -49,6 +52,22 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edit/{id}', [RequestTypeController::class, 'edit'])->name('jenis-permohonan.edit');
         Route::put('/update/{id}', [RequestTypeController::class, 'update'])->name('jenis-permohonan.update');
         Route::delete('/delete/{id}', [RequestTypeController::class, 'destroy'])->name('jenis-permohonan.destroy');
+    });
+
+    Route::prefix('data-pengajuan')->group(function () {
+        Route::get('verifikasi-operator/{id}', [RequestController::class, 'verifikasiOperator'])->name('data-pengajuan.verifikasi-operator');
+        Route::put('verifikasi-operator/{id}', [RequestController::class, 'updateVerifikasi'])->name('verifikasi-operator.update');
+    });
+
+    Route::prefix('pengajuan-saya')->group(function () {
+        Route::get('form/{requestTypeCode}', [MyRequestController::class, 'form'])->name('pengajuan-saya.form');
+        Route::get('/', [MyRequestController::class, 'index'])->name('pengajuan-saya.index');
+        Route::get('/create', [MyRequestController::class, 'create'])->name('pengajuan-saya.create');
+        Route::post('/store', [MyRequestController::class, 'store'])->name('pengajuan-saya.store');
+        Route::get('/show/{id}', [MyRequestController::class, 'show'])->name('pengajuan-saya.show');
+        Route::get('/edit/{id}', [MyRequestController::class, 'edit'])->name('pengajuan-saya.edit');
+        Route::put('/update/{id}', [MyRequestController::class, 'update'])->name('pengajuan-saya.update');
+        Route::delete('/delete/{id}', [MyRequestController::class, 'destroy'])->name('pengajuan-saya.destroy');
     });
 
     Route::prefix('notifikasi')->group(function () {

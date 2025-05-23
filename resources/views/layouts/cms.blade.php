@@ -350,14 +350,20 @@
             </a>
             @if (Auth::user()?->role === 'masyarakat')
                 <div class="menu-section">Menu Masyarakat </div>
+                <a href="{{ route('pengajuan-saya.index') }}" class="{{ request()->is('pengajuan-saya*') ? 'active' : '' }}">
+                    <i class="fas fa-envelope"></i> <span>Pengajuan Surat</span>
+                </a>
             @elseif (Auth::user()?->role === 'operator')
                 <div class="menu-section">Menu Operator </div>
+                <a href="{{ route('data-masyarakat.index') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
+                    <i class="fas fa-users"></i> <span>Data Masyarakat</span>
+                </a>
             @else
                 <div class="menu-section">Menu Administrator </div>
                 <a href="{{ URL::to('profil-desa') }}" class="{{ request()->is('profil-desa*') ? 'active' : '' }}">
                     <i class="fas fa-clipboard-list"></i> <span>Profil Desa</span>
                 </a>
-                <a href="{{ URL::to('data-masyarakat') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
+                <a href="{{ route('data-masyarakat.index') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> <span>Data Masyarakat</span>
                 </a>
                 <a href="{{ route('jenis-permohonan.index') }}" class="{{ request()->is('jenis-permohonan*') ? 'active' : '' }}">

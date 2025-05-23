@@ -6,12 +6,20 @@ use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    
+    public function __construct()
+    {
+        if (Auth::user()->role != 'admin') {
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
+    }
     /**
      * Display a listing of the resource.
      */

@@ -8,9 +8,11 @@
         <div class="card-header py-3">
             <div class="d-flex justify-content-between align-items-center">
                 <div></div>
-                 <a href="<?= route('data-masyarakat.create') ?>" class="btn btn-sm btn-primary">
-                    <i class="fas fa-plus"></i> Tambah {{ $title }}
-                </a>
+                @if (Auth::user()->role == 'admin')
+                    <a href="<?= route('data-masyarakat.create') ?>" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Tambah {{ $title }}
+                    </a>
+                @endif
             </div>
         </div>
         <div class="card-body">
