@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <!-- DataTables Responsive CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Popper.js -->
@@ -23,8 +25,13 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <!-- DataTables Responsive JS -->
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CKEditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
     <style>
         :root {
             --primary-color: #4a90e2;
@@ -334,7 +341,7 @@
                 @if(Auth::user()->role === 'admin')
                     <span class="role-badge role-admin">Admin</span>
                 @elseif(Auth::user()->role === 'operator')
-                    <span class="role-badge role-operator">Staff</span>
+                    <span class="role-badge role-operator">Operator</span>
                 @else
                     <span class="role-badge role-resident">Masyarakat</span>
                 @endif
@@ -353,15 +360,27 @@
                 <a href="{{ route('pengajuan-saya.index') }}" class="{{ request()->is('pengajuan-saya*') ? 'active' : '' }}">
                     <i class="fas fa-envelope"></i> <span>Pengajuan Surat</span>
                 </a>
+                <a href="{{ route('pengajuan-saya.index') }}" class="{{ request()->is('pengajuan-saya*') ? 'active' : '' }}">
+                    <i class="fas fa-bullhorn"></i> <span>Pengaduan</span>
+                </a>
             @elseif (Auth::user()?->role === 'operator')
                 <div class="menu-section">Menu Operator </div>
                 <a href="{{ route('data-masyarakat.index') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> <span>Data Masyarakat</span>
                 </a>
+
+                <a href="{{ route('data-pengajuan.index') }}" class="{{ request()->is('data-pengajuan*') ? 'active' : '' }}">
+                    <i class="fas fa-inbox"></i> <span>Data Pengajuan</span>
+                </a>
+
             @else
                 <div class="menu-section">Menu Administrator </div>
                 <a href="{{ URL::to('profil-desa') }}" class="{{ request()->is('profil-desa*') ? 'active' : '' }}">
                     <i class="fas fa-clipboard-list"></i> <span>Profil Desa</span>
+                </a>
+                
+                <a href="{{ route('informasi-desa.index') }}" class="{{ request()->is('informasi-desa*') ? 'active' : '' }}">
+                    <i class="fas fa-info"></i> <span>Informasi Desa</span>
                 </a>
                 <a href="{{ route('data-masyarakat.index') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> <span>Data Masyarakat</span>
@@ -369,8 +388,8 @@
                 <a href="{{ route('jenis-permohonan.index') }}" class="{{ request()->is('jenis-permohonan*') ? 'active' : '' }}">
                     <i class="fas fa-list"></i> <span>Jenis Permohonan</span>
                 </a>
-                <a href="{{ URL::to('pengajuan-sk') }}" class="{{ request()->is('pengajuan-sk*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan Surat Keterangan</span>
+                <a href="{{ route('data-pengajuan.index') }}" class="{{ request()->is('data-pengajuan*') ? 'active' : '' }}">
+                    <i class="fas fa-inbox"></i> <span>Data Pengajuan</span>
                 </a>
 
                 <a href="{{ URL::to('pengaduan-masyarakat') }}" class="{{ request()->is('pengaduan-masyarakat*') ? 'active' : '' }}">
@@ -381,85 +400,6 @@
                     <i class="fas fa-user-tie"></i> <span>Manajemen Pengguna</span>
                 </a>
 
-            @endif
-
-            @if(session()->get('role') === 'admin' || session()->get('role') === 'operator')
-                <!-- Menu Admin -->
-                <div class="menu-section">ADMIN MENU</div>
-                @if(session()->get('role') === 'admin')
-    
-                <a href="{{ URL::to('village-profile') }}" class="{{ request()->is('village-profile*') ? 'active' : '' }}">
-                    <i class="fas fa-clipboard-list"></i> <span>Profil Desa</span>
-                </a>
-
-                <a href="{{ URL::to('news') }}" class="{{ request()->is('news*') ? 'active' : '' }}">
-                    <i class="fas fa-newspaper"></i> <span>Berita & Informasi Desa</span>
-                </a>
-                @endif
-                <a href="{{ URL::to('letter-types') }}" class="{{ request()->is('letter-types*') ? 'active' : '' }}">
-                    <i class="fas fa-file-alt"></i> <span>Jenis Surat</span>
-                </a>
-
-                <a href="{{ URL::to('residents') }}" class="{{ request()->is('residents*') ? 'active' : '' }}">
-                    <i class="fas fa-users"></i> <span>Data Penduduk</span>
-                </a>
-                
-                <a href="{{ URL::to('general-request') }}" class="{{ request()->is('general-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan Surat Keterangan</span>
-                </a>
-
-                <a href="{{ URL::to('domicile-request') }}" class="{{ request()->is('domicile-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Domisili</span>
-                </a>
-
-                <a href="{{ URL::to('heir-request') }}" class="{{ request()->is('heir-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Ahli Waris</span>
-                </a>
-
-                <a href="{{ URL::to('relocation-request') }}" class="{{ request()->is('relocation-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Pindah</span>
-                </a>
-
-                <a href="{{ URL::to('death-certificate-request') }}" class="{{ request()->is('death-certificate-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Kematian</span>
-                </a>
-                
-                <a href="{{ URL::to('complaints/admin') }}" class="{{ request()->is('complaints/admin*') ? 'active' : '' }}">
-                    <i class="fas fa-bullhorn"></i> <span>Pengaduan Warga</span>
-                    @if(isset($pendingPengaduanCount) && $pendingPengaduanCount > 0)
-                        <span class="notification-badge">{{ $pendingPengaduanCount }}</span>
-                    @endif
-                </a>
-               
-                
-            @else
-                <!-- Menu Masyarakat -->
-                <div class="menu-section">RESIDENT MENU</div>
-                <a href="{{ URL::to('general-request/my-request') }}" class="{{ request()->is('general-request/my-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan Surat Keterangan</span>
-                </a>
-
-                <a href="{{ URL::to('domicile-request/my-request') }}" class="{{ request()->is('domicile-request/my-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Domisili</span>
-                </a>
-
-                <a href="{{ URL::to('heir-request/my-request') }}" class="{{ request()->is('heir-request/my-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Ahli Waris</span>
-                </a>
-
-                <a href="{{ URL::to('relocation-request/my-request') }}" class="{{ request()->is('relocation-request/my-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Pindah</span>
-                </a>
-
-                <a href="{{ URL::to('death-certificate-request/my-request') }}" class="{{ request()->is('death-certificate-request/my-request*') ? 'active' : '' }}">
-                    <i class="fas fa-envelope"></i> <span>Pengajuan SK Kematian</span>
-                </a>
-
-                
-                <a href="{{ URL::to('complaints') }}" class="{{ request()->is('complaints') && !request()->is('complaints/admin*') ? 'active' : '' }}">
-                    <i class="fas fa-exclamation-circle"></i> <span>Pengaduan</span>
-                </a>
-                
             @endif
             
             

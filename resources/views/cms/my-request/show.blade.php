@@ -7,9 +7,27 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title"></h3>
-                    <a href="{{ route('data-pengajuan.index') }}" class="btn btn-sm btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
+                    <div>
+                        <a href="{{ route('pengajuan-saya.index') }}" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                        @if($requestLetter && $requestLetter->status == 'Diajukan')
+                            <a href="{{ route('pengajuan-saya.edit', $requestLetter->id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form action="{{ route('pengajuan-saya.destroy', $requestLetter->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger me-2" onclick="return confirm('Apakah Anda yakin ingin menghapus pengajuan ini?')">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
+                        @elseif ($requestLetter && $requestLetter->status == 'Selesai')
+                            <a href="{{ route('pengajuan-saya.print', $requestLetter->id) }}" target="_blank" class="btn btn-sm btn-info">
+                                <i class="fas fa-print"></i> Cetak
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 <div class="card-body">
                     @if($requestLetter)
@@ -63,7 +81,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title border-bottom pb-2 mb-4">Data Pengajuan</h5>
                                         @php
-                                            $exclude = ['request_type_id', 'village_head', 'village_head_position'];
+                                            $exclude = ['request_type_id', 'village_head', 'village_head_position', 'id'];
                                         @endphp
                                         @foreach(json_decode($requestLetter->data) as $key => $value)
                                             @if(!in_array($key, $exclude))
@@ -75,7 +93,7 @@
                                                 @else
                                                     <div class="row mb-3">
                                                         <div class="col-md-5 fw-bold">{{ __('request-letter.' . $key) }}</div>
-                                                        <div class="col-md-7">{{ $value }}</div>
+                                                        <div class="col-md-7">{{ str_contains($key, 'income') ? number_format($value) : $value }}</div>
                                                     </div>
                                                 @endif
                                             @endif
@@ -124,34 +142,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                @if($requestLetter->status == 'Diajukan')
-                                <div class="card shadow-sm mb-4">
-                                    <div class="card-body">
-                                        <h5 class="card-title border-bottom pb-2 mb-4">Verifikasi Pengajuan</h5>
-                                        <form action="{{ route('verifikasi-operator.update', $requestLetter->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group mb-3">
-                                                <label for="status" class="form-label">Status</label>
-                                                <select name="status" id="status" class="form-select" required>
-                                                    <option value="Diproses">Diproses</option>
-                                                    <option value="Ditolak">Ditolak</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="notes" class="form-label">Catatan</label>
-                                                <textarea name="notes" id="notes" class="form-control" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
-                                            </div>
-                                            <div class="form-group text-end">
-                                                <button type="submit" class="btn btn-primary">
-                                                    <i class="fas fa-save me-1"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                @endif
                             </div>
                         </div>
                     @else
@@ -217,20 +207,5 @@
 .rounded {
     border-radius: 0.5rem!important;
 }
-
-.form-control:focus, .form-select:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    border: none;
-    padding: 0.5rem 1.5rem;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #357abd 0%, #2c6aa0 100%);
-}
 </style>
-@endsection
+@endsection 

@@ -8,13 +8,21 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\MyRequestController;
 use App\Http\Controllers\RequestTypeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InformationController;
 
-Route::get('/', function () {
-    return view('layouts.cms');
-});
-Route::get('dashboard', function () {
-    return view('layouts.cms');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('/');
+Route::get('pengajuan', [HomeController::class, 'submission'])->name('pengajuan.index');
+Route::get('pengaduan', [HomeController::class, 'complaint'])->name('pengaduan.index');
+Route::post('pengaduan', [HomeController::class, 'storeComplaint'])->name('complaint.store');
+
+
+Route::get('/informasi', [HomeController::class, 'information'])->name('informasi.index');
+Route::get('/informasi/{id}', [HomeController::class, 'showInformation'])->name('informasi.show');
+
+
 
 // Authentication Routes
 Route::get('login', [AuthController::class, 'index'])->name('login');
@@ -24,7 +32,7 @@ Route::post('register', [AuthController::class, 'doregister']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::prefix('data-masyarakat')->group(function () {
         Route::get('/', [ResidentController::class, 'index'])->name('data-masyarakat.index');
         Route::get('/show/{id}', [ResidentController::class, 'show'])->name('data-masyarakat.show');
@@ -55,8 +63,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('data-pengajuan')->group(function () {
+        Route::get('/', [RequestController::class, 'index'])->name('data-pengajuan.index');
+        Route::get('show/{id}', [RequestController::class, 'show'])->name('data-pengajuan.show');
+
         Route::get('verifikasi-operator/{id}', [RequestController::class, 'verifikasiOperator'])->name('data-pengajuan.verifikasi-operator');
         Route::put('verifikasi-operator/{id}', [RequestController::class, 'updateVerifikasi'])->name('verifikasi-operator.update');
+        Route::get('verifikasi-admin/{id}', [RequestController::class, 'verifikasiAdmin'])->name('data-pengajuan.verifikasi-admin');
+        Route::put('verifikasi-admin/{id}', [RequestController::class, 'updateVerifikasi'])->name('verifikasi-admin.update');
     });
 
     Route::prefix('pengajuan-saya')->group(function () {
@@ -66,8 +79,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [MyRequestController::class, 'store'])->name('pengajuan-saya.store');
         Route::get('/show/{id}', [MyRequestController::class, 'show'])->name('pengajuan-saya.show');
         Route::get('/edit/{id}', [MyRequestController::class, 'edit'])->name('pengajuan-saya.edit');
+        Route::get('/print/{id}', [MyRequestController::class, 'print'])->name('pengajuan-saya.print');
         Route::put('/update/{id}', [MyRequestController::class, 'update'])->name('pengajuan-saya.update');
         Route::delete('/delete/{id}', [MyRequestController::class, 'destroy'])->name('pengajuan-saya.destroy');
+        Route::get('/check', [MyRequestController::class, 'checkStatus'])->name('pengajuan-saya.check');
+    });
+
+    Route::prefix('informasi-desa')->group(function () {
+        Route::get('/', [InformationController::class, 'index'])->name('informasi-desa.index');
+        Route::get('/create', [InformationController::class, 'create'])->name('informasi-desa.create');
+        Route::post('/store', [InformationController::class, 'store'])->name('informasi-desa.store');
+        Route::get('/show/{id}', [InformationController::class, 'show'])->name('informasi-desa.show');
+        Route::get('/edit/{id}', [InformationController::class, 'edit'])->name('informasi-desa.edit');
+        Route::put('/update/{id}', [InformationController::class, 'update'])->name('informasi-desa.update');
+        Route::delete('/delete/{id}', [InformationController::class, 'destroy'])->name('informasi-desa.destroy');
+        Route::post('{id}/toggle-status', [InformationController::class, 'toggleStatus'])->name('informasi-desa.toggle-status');
     });
 
     Route::prefix('notifikasi')->group(function () {
@@ -82,6 +108,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{id}', [UserController::class, 'verification'])->name('verifikasi-pendaftaran.index');
         Route::post('{id}/verify', [UserController::class, 'verify'])->name('verifikasi-pendaftaran.verify');
     });
+
+    Route::get('pengajuan-saya/print/{id}', [MyRequestController::class, 'print'])->name('pengajuan-saya.print');
 });
 
 // Route::resource('data-masyarakat', ResidentController::class);

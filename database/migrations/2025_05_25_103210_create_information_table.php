@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('request_types', function (Blueprint $table) {
+        Schema::create('information', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 10)->unique();
-            $table->string('name');
+            $table->string('title');
+            $table->string('slug')->unique();
             $table->text('description');
-            // $table->json('additional_fields')->nullable();
-            $table->text('required_documents')->nullable();
+            $table->string('image')->nullable();
             $table->boolean('status')->default(true);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('request_types');
+        Schema::dropIfExists('information');
     }
 };

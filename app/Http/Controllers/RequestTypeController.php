@@ -6,6 +6,7 @@ use App\Models\RequestType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RequestTypeController extends Controller
 {
@@ -46,7 +47,7 @@ class RequestTypeController extends Controller
             'code' => 'required|unique:request_types,code',
             'name' => 'required',
             'description' => 'nullable',
-            'additional_fields' => 'nullable|array',
+            // 'additional_fields' => 'nullable|array',
             'required_documents' => 'nullable|array',
             'status' => 'boolean'
         ]);
@@ -61,7 +62,7 @@ class RequestTypeController extends Controller
             DB::beginTransaction();
             $data = $request->all();
 
-            $data['additional_fields'] = $request->additional_fields ?  json_encode($request->additional_fields) : NULL;
+            // $data['additional_fields'] = $request->additional_fields ?  json_encode($request->additional_fields) : NULL;
             $data['required_documents'] = json_encode($request->required_documents);
             // dd($data);
             $requestType = RequestType::create($data);
@@ -111,7 +112,7 @@ class RequestTypeController extends Controller
             'code' => 'required|unique:request_types,code,' . $id,
             'name' => 'required',
             'description' => 'nullable',
-            'additional_fields' => 'nullable|array',
+            // 'additional_fields' => 'nullable|array',
             'required_documents' => 'nullable|array',
             'status' => 'boolean'
         ]);
@@ -128,7 +129,7 @@ class RequestTypeController extends Controller
             $requestType = RequestType::findOrFail($id);
             $data = $request->all();
 
-            $data['additional_fields'] = $request->additional_fields ?  json_encode($request->additional_fields) : NULL;
+            // $data['additional_fields'] = $request->additional_fields ?  json_encode($request->additional_fields) : NULL;
             $data['required_documents'] = json_encode($request->required_documents);
             $requestType->update($data);
 

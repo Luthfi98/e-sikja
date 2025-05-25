@@ -44,31 +44,6 @@
                         </div>
                     </div>
 
-                    @if($requestType->additional_fields)
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <h6>Field Tambahan</h6>
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Label</th>
-                                            <th>Tipe</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach(json_decode($requestType->additional_fields) as $field)
-                                        <tr>
-                                            <td>{{ $field->label }}</td>
-                                            <td>{{ ucfirst($field->type) }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
 
                     @if($requestType->required_documents)
                     <div class="row mt-4">

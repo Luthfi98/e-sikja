@@ -85,4 +85,15 @@ class User extends Authenticatable
         return $this->belongsTo(Resident::class, 'resident_id', 'id');
     }
     
+
+    
+    /**
+     * Get the requestLetters that owns a User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function requestLetters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(RequestLetter::class, 'user_id', 'id');
+    }
 }

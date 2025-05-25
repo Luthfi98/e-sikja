@@ -12,20 +12,11 @@
                         @enderror
                     </div>
                 @endif
-                <div class="col-md-6 mb-3">
+                <div class="col-md-12 mb-3">
                     <label for="name" class="form-label">Nama <span class="text-danger">*</span></label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
                         id="name" name="name" value="{{ old('name', isset($requestLetter) ? $requestLetter->name : ($resident->name ?? '')) }}" required>
                     @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="nik" class="form-label">NIK <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('nik') is-invalid @enderror" 
-                        id="nik" name="nik" value="{{ old('nik', isset($requestLetter) ? $requestLetter->nik : ($resident->nik ?? '')) }}" required>
-                    @error('nik')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -44,54 +35,52 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <div class="col-md-6 mb-3">
-                    <label for="pob" class="form-label">Tempat Lahir <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('pob') is-invalid @enderror" 
-                        id="pob" name="pob" value="{{ old('pob', isset($requestLetter) ? $requestLetter->pob : ($resident->pob ?? '')) }}" required>
+                    <label for="pob" class="form-label">Tempat/Tanggal Lahir <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control @error('pob') is-invalid @enderror" 
+                            id="pob" name="pob" placeholder="Tempat Lahir" value="{{ old('pob', isset($requestLetter) ? $requestLetter->pob : ($resident->pob ?? '')) }}" required>
+                        <input type="date" class="form-control @error('dob') is-invalid @enderror" 
+                            id="dob" name="dob" value="{{ old('dob', isset($requestLetter->dob) ? date('Y-m-d', strtotime($requestLetter->dob)) : (isset($resident->dob) ? date('Y-m-d', strtotime($resident->dob)) : '')) }}" required>
+                    </div>
                     @error('pob')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="dob" class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control @error('dob') is-invalid @enderror" 
-                        id="dob" name="dob" value="{{ old('dob', isset($requestLetter->dob) ? date('Y-m-d', strtotime($requestLetter->dob)) : (isset($resident->dob) ? date('Y-m-d', strtotime($resident->dob)) : '')) }}" required>
                     @error('dob')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="address" class="form-label">Alamat <span class="text-danger">*</span></label>
-                    <textarea class="form-control @error('address') is-invalid @enderror" 
-                        id="address" name="address" rows="3" required>{{ old('address', isset($requestLetter) ? $requestLetter->address : ($resident->address ?? '')) }}</textarea>
-                    @error('address')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
             </div>
-        </div>
 
-        <div class="mb-3">
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="business_name" class="form-label">Nama Usaha <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('business_name') is-invalid @enderror" 
-                        id="business_name" name="business_name" value="{{ old('business_name', isset($requestLetter) ? $requestLetter->business_name : '') }}" required>
-                    @error('business_name')
+                    <label for="marital_status" class="form-label">Status Perkawinan <span class="text-danger">*</span></label>
+                    <select class="form-select @error('marital_status') is-invalid @enderror" 
+                        id="marital_status" name="marital_status" required>
+                        <option value="">Pilih Status Perkawinan</option>
+                        <option value="Belum Kawin" {{ old('marital_status', isset($requestLetter) ? $requestLetter->marital_status : ($resident->marital_status ?? '')) == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                        <option value="Kawin" {{ old('marital_status', isset($requestLetter) ? $requestLetter->marital_status : ($resident->marital_status ?? '')) == 'Kawin' ? 'selected' : '' }}>Kawin</option>
+                        <option value="Cerai Hidup" {{ old('marital_status', isset($requestLetter) ? $requestLetter->marital_status : ($resident->marital_status ?? '')) == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
+                        <option value="Cerai Mati" {{ old('marital_status', isset($requestLetter) ? $requestLetter->marital_status : ($resident->marital_status ?? '')) == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
+                    </select>
+                    @error('marital_status')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label for="business_start_date" class="form-label">Mulai Usaha Sejak <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control @error('business_start_date') is-invalid @enderror" 
-                        id="business_start_date" name="business_start_date" value="{{ old('business_start_date', isset($requestLetter) ? $requestLetter->business_start_date : '') }}" required>
-                    @error('business_start_date')
+                    <label for="religion" class="form-label">Agama <span class="text-danger">*</span></label>
+                    <select class="form-select @error('religion') is-invalid @enderror" 
+                        id="religion" name="religion" required>
+                        <option value="">Pilih Agama</option>
+                        <option value="Islam" {{ old('religion', isset($requestLetter) ? $requestLetter->religion : ($resident->religion ?? '')) == 'Islam' ? 'selected' : '' }}>Islam</option>
+                        <option value="Kristen" {{ old('religion', isset($requestLetter) ? $requestLetter->religion : ($resident->religion ?? '')) == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                        <option value="Katolik" {{ old('religion', isset($requestLetter) ? $requestLetter->religion : ($resident->religion ?? '')) == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                        <option value="Hindu" {{ old('religion', isset($requestLetter) ? $requestLetter->religion : ($resident->religion ?? '')) == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                        <option value="Buddha" {{ old('religion', isset($requestLetter) ? $requestLetter->religion : ($resident->religion ?? '')) == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                        <option value="Konghucu" {{ old('religion', isset($requestLetter) ? $requestLetter->religion : ($resident->religion ?? '')) == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                    </select>
+                    @error('religion')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -99,10 +88,19 @@
 
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <label for="business_address" class="form-label">Alamat Usaha <span class="text-danger">*</span></label>
-                    <textarea class="form-control @error('business_address') is-invalid @enderror" 
-                        id="business_address" name="business_address" rows="3" required>{{ old('business_address', isset($requestLetter) ? $requestLetter->business_address : '') }}</textarea>
-                    @error('business_address')
+                    <label for="occupation" class="form-label">Pekerjaan <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('occupation') is-invalid @enderror" 
+                        id="occupation" name="occupation" value="{{ old('occupation', isset($requestLetter) ? $requestLetter->occupation : ($resident->occupation ?? '')) }}" required>
+                    @error('occupation')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="address" class="form-label">Alamat <span class="text-danger">*</span></label>
+                    <textarea class="form-control @error('address') is-invalid @enderror" 
+                        id="address" name="address" rows="3" required>{{ old('address', isset($requestLetter) ? $requestLetter->address : ($resident->address ?? '')) }}</textarea>
+                    @error('address')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -144,5 +142,3 @@
         </div>
     </div>
 </div>
-
-

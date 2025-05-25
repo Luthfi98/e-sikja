@@ -1,64 +1,18 @@
 @extends('layouts.cms')
 
 @section('content')
-<style>
-    .nav-tabs .nav-link {
-        color: #495057;
-    }
-    .nav-tabs .nav-link.active {
-        font-weight: bold;
-    }
-    .nav-tabs .nav-link[data-bs-target="#semua"] {
-        border-color: #6c757d;
-    }
-    .nav-tabs .nav-link[data-bs-target="#semua"].active {
-        background-color: #6c757d;
-        color: white;
-    }
-    .nav-tabs .nav-link[data-bs-target="#diajukan"] {
-        border-color: #ffc107;
-    }
-    .nav-tabs .nav-link[data-bs-target="#diajukan"].active {
-        background-color: #ffc107;
-        color: white;
-    }
-    .nav-tabs .nav-link[data-bs-target="#diproses"] {
-        border-color: #0d6efd;
-    }
-    .nav-tabs .nav-link[data-bs-target="#diproses"].active {
-        background-color: #0d6efd;
-        color: white;
-    }
-    .nav-tabs .nav-link[data-bs-target="#selesai"] {
-        border-color: #198754;
-    }
-    .nav-tabs .nav-link[data-bs-target="#selesai"].active {
-        background-color: #198754;
-        color: white;
-    }
-    .nav-tabs .nav-link[data-bs-target="#ditolak"] {
-        border-color: #dc3545;
-    }
-    .nav-tabs .nav-link[data-bs-target="#ditolak"].active {
-        background-color: #dc3545;
-        color: white;
-    }
-</style>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header">
                     <h3 class="card-title"></h3>
-                    <a href="{{ route('pengajuan-saya.create') }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus"></i> Buat Pengajuan Baru
-                    </a>
                 </div>
                 <div class="card-body">
                     <!-- Tab Navigation -->
                     <ul class="nav nav-tabs" id="requestTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="diajukan-tab" data-bs-toggle="tab" data-bs-target="#semua" type="button" role="tab" aria-controls="semua" aria-selected="true">
+                            <button class="nav-link active" id="semua-tab" data-bs-toggle="tab" data-bs-target="#semua" type="button" role="tab" aria-controls="semua" aria-selected="true">
                                 Semua
                             </button>
                         </li>
@@ -97,6 +51,7 @@
                                             <th>No.Dokumen</th>
                                             <th>Tanggal Pengajuan</th>
                                             <th>Jenis Pengajuan</th>
+                                            <th>Pemohon</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -105,7 +60,7 @@
                             </div>
                         </div>
                         <!-- Diajukan Tab -->
-                        <div class="tab-pane fade show" id="diajukan" role="tabpanel" aria-labelledby="diajukan-tab">
+                        <div class="tab-pane fade" id="diajukan" role="tabpanel" aria-labelledby="diajukan-tab">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped" width="100%" id="table-diajukan">
                                     <thead>
@@ -115,6 +70,7 @@
                                             <th>No.Dokumen</th>
                                             <th>Tanggal Pengajuan</th>
                                             <th>Jenis Pengajuan</th>
+                                            <th>Pemohon</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -134,6 +90,7 @@
                                             <th>No.Dokumen</th>
                                             <th>Tanggal Pengajuan</th>
                                             <th>Jenis Pengajuan</th>
+                                            <th>Pemohon</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -153,6 +110,7 @@
                                             <th>No.Dokumen</th>
                                             <th>Tanggal Pengajuan</th>
                                             <th>Jenis Pengajuan</th>
+                                            <th>Pemohon</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -172,6 +130,7 @@
                                             <th>No.Dokumen</th>
                                             <th>Tanggal Pengajuan</th>
                                             <th>Jenis Pengajuan</th>
+                                            <th>Pemohon</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -202,7 +161,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('pengajuan-saya.index') }}",
+                    url: "{{ route('data-pengajuan.index') }}",
                     data: function(d) {
                         d.status = status;
                     }
@@ -229,6 +188,10 @@
                     {
                         data: 'request_type',
                         name: 'request_type'
+                    },
+                    {
+                        data: 'user.name',
+                        name: 'user.name'
                     },
                     {
                         data: 'status',

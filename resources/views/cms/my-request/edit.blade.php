@@ -12,18 +12,27 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pengajuan-saya.store') }}" method="POST" enctype="multipart/form-data" id="requestForm">
+                    <form action="{{ route('pengajuan-saya.update', $requestLetter->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         
                         <div class="form-group mb-3">
+                            <input type="hidden" name="id" id="id" value="{{ $requestLetter->id }}">
+                            
                             <label for="request_type_id">Jenis Surat <span class="text-danger">*</span></label>
                             <select name="request_type_id" id="request_type_id" class="form-control @error('request_type_id') is-invalid @enderror" required>
+                                @if(isset($requestLetter))
+                                <option value="{{ $requestLetter->request_type_id }}" selected data-code="{{ $requestLetter->requestType->code }}" data-fields="{{ $requestLetter->requestType->additional_fields }}" data-documents="{{ $requestLetter->requestType->required_documents }}">
+                                    {{ $requestLetter->requestType->name }}
+                                </option>
+                                @else
                                 <option value="">Pilih Jenis Surat</option>
-                                @foreach($requestTypes as $type)
-                                    <option value="{{ $type->id }}" data-code="{{ $type->code }}" data-fields="{{ $type->additional_fields }}" data-documents="{{ $type->required_documents }}" {{ old('request_type_id') == $type->id ? 'selected' : '' }}>
-                                        {{ $type->name }}
-                                    </option>
-                                @endforeach
+                                    @foreach($requestTypes as $type)
+                                        <option value="{{ $type->id }}" data-code="{{ $type->code }}" data-fields="{{ $type->additional_fields }}" data-documents="{{ $type->required_documents }}" {{ old('request_type_id') == $type->id ? 'selected' : '' }}>
+                                            {{ $type->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
                             </select>
                             @error('request_type_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -34,16 +43,9 @@
                             <!-- Dynamic form will be loaded here -->
                         </div>
 
-                        <div id="loading-spinner" class="text-center d-none">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p class="mt-2">Memuat form...</p>
-                        </div>
-
                         <div class="form-group text-end">
                             <a href="{{ route('pengajuan-saya.index') }}" class="btn btn-secondary">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Buat Pengajuan</button>
+                            <button type="submit" class="btn btn-primary">Update Pengajuan</button>
                         </div>
                     </form>
                 </div>
@@ -56,16 +58,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const requestTypeSelect = document.getElementById('request_type_id');
     const formContainer = document.getElementById('form-container');
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const requestForm = document.getElementById('requestForm');
-
-    // Function to toggle form elements
-    function toggleFormElements(disabled) {
-        const formElements = requestForm.elements;
-        for (let i = 0; i < formElements.length; i++) {
-            formElements[i].disabled = disabled;
-        }
-    }
 
     // Function to load form
     function loadForm(requestTypeCode) {
@@ -74,14 +66,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Show loading spinner and disable form
-        loadingSpinner.classList.remove('d-none');
-        toggleFormElements(true);
-
         const oldData = {{ Illuminate\Support\Js::from(old()) }};
+        const requestData = {{ Illuminate\Support\Js::from($requestLetter->toArray()) }};
 
-        // Convert oldData to URLSearchParams format
-        const params = new URLSearchParams(oldData);
+        // Merge old data with request data
+        const mergedData = { id: requestData.id, ...oldData };
+
+        // Convert mergedData to URLSearchParams format
+        const params = new URLSearchParams(mergedData);
 
         // Load the specific form view based on request type code
         fetch(`/pengajuan-saya/form/${requestTypeCode}?${params.toString()}`, {

@@ -41,7 +41,7 @@ class AuthController extends Controller
         // Try to authenticate with email
         if (Auth::attempt(['email' => $credentials['username'], 'password' => $credentials['password']])) {
             if (Auth::user()->status == 'Aktif') {
-                return redirect()->intended('/')->with('success', 'Berhasil login');
+                return redirect()->intended('/dashboard')->with('success', 'Berhasil login');
             }elseif (Auth::user()->status == 'Tidak Aktif') {
                 Auth::logout();
                 return redirect()->back()->with('error', 'Akun anda tidak aktif');
@@ -54,7 +54,7 @@ class AuthController extends Controller
         // Try to authenticate with username
         if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
             if (Auth::user()->status == 'Aktif') {
-                return redirect()->intended('/')->with('success', 'Berhasil login');
+                return redirect()->intended('/dashboard')->with('success', 'Berhasil login');
             }elseif (Auth::user()->status == 'Tidak Aktif') {
                 Auth::logout();
                 return redirect()->back()->with('error', 'Akun anda tidak aktif');

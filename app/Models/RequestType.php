@@ -14,13 +14,13 @@ class RequestType extends Model
         'code',
         'name',
         'description',
-        'additional_fields',
+        // 'additional_fields',
         'required_documents',
         'status'
     ];
 
     protected $casts = [
-        'additional_fields' => 'array',
+        // 'additional_fields' => 'array',
         'status' => 'boolean'
     ];
 }

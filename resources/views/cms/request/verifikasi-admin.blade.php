@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
 
-                                @if($requestLetter->status == 'Diajukan')
+                                @if($requestLetter->status == 'Diproses')
                                 <div class="card shadow-sm mb-4">
                                     <div class="card-body">
                                         <h5 class="card-title border-bottom pb-2 mb-4">Verifikasi Pengajuan</h5>
@@ -135,7 +135,7 @@
                                             <div class="form-group mb-3">
                                                 <label for="status" class="form-label">Status</label>
                                                 <select name="status" id="status" class="form-select" required>
-                                                    <option value="Diproses">Diproses</option>
+                                                    <option value="Selesai">Selesai</option>
                                                     <option value="Ditolak">Ditolak</option>
                                                 </select>
                                             </div>

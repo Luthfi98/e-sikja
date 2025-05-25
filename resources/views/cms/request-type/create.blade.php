@@ -60,66 +60,6 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Field Tambahan</label>
-                            <div id="additionalFields">
-                                @if(old('additional_fields'))
-                                    @foreach(old('additional_fields') as $index => $field)
-                                    <div class="row mb-2">
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control @error('additional_fields.'.$index.'.label') is-invalid @enderror" 
-                                                   name="additional_fields[{{ $index }}][label]" 
-                                                   value="{{ $field['label'] }}" 
-                                                   placeholder="Label">
-                                            @error('additional_fields.'.$index.'.label')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-5">
-                                            <select class="form-control @error('additional_fields.'.$index.'.type') is-invalid @enderror" 
-                                                    name="additional_fields[{{ $index }}][type]">
-                                                <option value="text" {{ $field['type'] == 'text' ? 'selected' : '' }}>Text</option>
-                                                <option value="number" {{ $field['type'] == 'number' ? 'selected' : '' }}>Number</option>
-                                                <option value="date" {{ $field['type'] == 'date' ? 'selected' : '' }}>Date</option>
-                                                <option value="select" {{ $field['type'] == 'select' ? 'selected' : '' }}>Select</option>
-                                            </select>
-                                            @error('additional_fields.'.$index.'.type')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="button" class="btn btn-sm btn-danger remove-field">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                @else
-                                    <div class="row mb-2">
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control" name="additional_fields[0][label]" placeholder="Label">
-                                        </div>
-                                        <div class="col-md-5">
-                                            <select class="form-control" name="additional_fields[0][type]">
-                                                <option value="text">Text</option>
-                                                <option value="number">Number</option>
-                                                <option value="date">Date</option>
-                                                <option value="select">Select</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="button" class="btn btn-sm btn-danger remove-field">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                            <button type="button" class="btn btn-secondary btn-sm" id="addField">
-                                <i class="fas fa-plus"></i> Tambah Field
-                            </button>
-                        </div>
-
-                        <div class="mb-3">
                             <label class="form-label">Dokumen yang Diperlukan</label>
                             <div id="requiredDocuments">
                                 @if(old('required_documents'))
