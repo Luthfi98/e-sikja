@@ -36,6 +36,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('pengaduan-saya/check', [DashboardController::class, 'checkComplaintStatus'])->name('pengaduan-saya.check');
     Route::prefix('data-masyarakat')->group(function () {
         Route::get('/', [ResidentController::class, 'index'])->name('data-masyarakat.index');
         Route::get('/show/{id}', [ResidentController::class, 'show'])->name('data-masyarakat.show');

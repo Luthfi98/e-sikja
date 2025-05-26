@@ -297,5 +297,64 @@ class MyComplaintController extends Controller
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+    public function checkStatus(Request $request)
+    {
+        $nomorPengaduan = $request->nomor_pengaduan;
+        
+        if (!$nomorPengaduan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nomor pengaduan tidak ditemukan'
+            ]);
+        }
+
+        $complaint = Auth::user()->complaints()->where('code', $nomorPengaduan)->firstOrFail();
+
+        if (!$complaint) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pengaduan tidak ditemukan'
+            ]);
+        }
+        $histories = json_decode($complaint->histories, true);
+
+        $statusMessage = '';
+        $details = '';
+
+        switch($complaint->status) {
+            case 'Diajukan':
+                $statusMessage = 'Pengaduan Anda sedang dalam proses verifikasi';
+                break;
+            case 'Diproses':
+                $statusMessage = 'Pengaduan Anda sedang diproses';
+                $details = 'Tim kami sedang menangani pengaduan Anda';
+                break;
+            case 'Selesai':
+                $statusMessage = 'Pengaduan Anda telah selesai diproses';
+                $details = 'Terima kasih telah melaporkan pengaduan';
+                break;
+            case 'Ditolak':
+                $statusMessage = 'Pengaduan Anda ditolak';
+                $details = $complaint->rejection_reason ?? 'Pengaduan tidak memenuhi kriteria';
+                break;
+            default:
+                $statusMessage = 'Status tidak diketahui';
+        }
+
+        return response()->json([
+            'success' => true,
+            'status' => strtolower($complaint->status),
+            'message' => $statusMessage,
+            'details' => $details,
+            'pengaduan' => [
+                'id' => $complaint->id,
+                'code' => $complaint->code,
+                'title' => $complaint->title,
+                'created_at' => $complaint->created_at->format('d M Y H:i')
+            ],
+            'history' => $histories
+        ]);
+    }
 }
 

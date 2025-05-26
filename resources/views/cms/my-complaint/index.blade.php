@@ -8,7 +8,7 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">List Pengaduan</h3>
+                    <h5 class="card-title">List Pengaduan</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -45,7 +45,7 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title" id="form-title">Buat Pengaduan Baru</h3>
+                    <h5 class="card-title" id="form-title">Buat Pengaduan Baru</h5>
                     <button type="button" class="btn btn-secondary btn-sm" id="reset-form" style="display: none;">
                         <i class="fas fa-times"></i> Batal Edit
                     </button>
@@ -120,67 +120,69 @@
 <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header border-0">
                 <h5 class="modal-title" id="complaintModalLabel">Detail Pengaduan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th width="200">Kode Pengaduan</th>
-                                <td id="modal-code"></td>
-                            </tr>
-                            <tr>
-                                <th>Judul</th>
-                                <td id="modal-title"></td>
-                            </tr>
-                            <tr>
-                                <th>Tanggal Kejadian</th>
-                                <td id="modal-date"></td>
-                            </tr>
-                            <tr>
-                                <th>Lokasi</th>
-                                <td id="modal-location"></td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td id="modal-status"></td>
-                            </tr>
-                            <tr>
-                                <th>Deskripsi</th>
-                                <td id="modal-description"></td>
-                            </tr>
-                            <tr>
-                                <th>Foto</th>
-                                <td id="modal-image"></td>
-                            </tr>
+                <!-- Main Information -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p class="mb-2"><small class="text-muted">Kode Pengaduan</small></p>
+                        <p id="modal-code" class="mb-3"></p>
+                        
+                        <p class="mb-2"><small class="text-muted">Judul</small></p>
+                        <p id="modal-title" class="mb-3"></p>
+                        
+                        <p class="mb-2"><small class="text-muted">Tanggal Kejadian</small></p>
+                        <p id="modal-date" class="mb-3"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2"><small class="text-muted">Status</small></p>
+                        <p id="modal-status" class="mb-3"></p>
+                        
+                        <p class="mb-2"><small class="text-muted">Lokasi</small></p>
+                        <p id="modal-location" class="mb-3"></p>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <p class="mb-2"><small class="text-muted">Deskripsi Pengaduan</small></p>
+                    <p id="modal-description" class="mb-0"></p>
+                </div>
+
+                <!-- Image -->
+                <div class="mb-4">
+                    <p class="mb-2"><small class="text-muted">Foto Pendukung</small></p>
+                    <div id="modal-image" class="text-center"></div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- History -->
+                <div>
+                    <p class="mb-3"><small class="text-muted">Riwayat Status</small></p>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Oleh</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-history">
+                            </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-md-12">
-                        <h6 class="mb-3">Riwayat Status</h6>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
-                                        <th>Oleh</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="modal-history">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

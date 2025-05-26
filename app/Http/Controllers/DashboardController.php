@@ -27,6 +27,25 @@ class DashboardController extends Controller
     }
 
     private function resident(){
-        return view('cms.dashboard.resident');
+
+        $statuses = ['Diajukan', 'Diproses', 'Ditolak', 'Selesai'];
+        $countsRequest = [];
+        $countComplaint = [];
+        foreach ($statuses as $status) {
+            $countsRequest[$status] = Auth::user()->requestLetters()->where('status', $status)->count();
+            $countComplaint[$status] = Auth::user()->complaints()->where('status', $status)->count();
+        }
+        $countsRequest['total'] = array_sum($countsRequest);
+        $countComplaint['total'] = array_sum($countComplaint);
+
+        $data = [
+            'countRequest' => $countsRequest,
+            'countComplaint' => $countComplaint
+        ];
+
+
+        return view('cms.dashboard.resident')->with($data);
     }
+
+    
 }
