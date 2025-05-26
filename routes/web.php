@@ -11,6 +11,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\MyComplaintController;
+use App\Http\Controllers\ComplaintController;
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
@@ -85,6 +88,28 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/check', [MyRequestController::class, 'checkStatus'])->name('pengajuan-saya.check');
     });
 
+    Route::prefix('pengaduan-saya')->group(function () {
+        Route::get('/', [MyComplaintController::class, 'index'])->name('pengaduan-saya.index');
+        Route::get('/create', [MyComplaintController::class, 'create'])->name('pengaduan-saya.create');
+        Route::post('/store', [MyComplaintController::class, 'store'])->name('pengaduan-saya.store');
+        Route::get('/show/{id}', [MyComplaintController::class, 'show'])->name('pengaduan-saya.show');
+        Route::get('/edit/{id}', [MyComplaintController::class, 'edit'])->name('pengaduan-saya.edit');
+        Route::put('/update/{id}', [MyComplaintController::class, 'update'])->name('pengaduan-saya.update');
+        Route::delete('/delete/{id}', [MyComplaintController::class, 'destroy'])->name('pengaduan-saya.destroy');
+        Route::get('/check', [MyComplaintController::class, 'checkStatus'])->name('pengaduan-saya.check');
+    });
+
+
+    Route::prefix('data-pengaduan')->group(function () {
+        Route::get('/', [ComplaintController::class, 'index'])->name('data-pengaduan.index');
+        Route::get('/show/{id}', [ComplaintController::class, 'show'])->name('data-pengaduan.show');
+        Route::get('verifikasi-operator/{id}', [ComplaintController::class, 'verifikasiOperator'])->name('data-pengaduan.verifikasi-operator');
+        Route::post('verifikasi-process/{id}', [ComplaintController::class, 'verifikasiProcess'])->name('data-pengaduan.verifikasi-process');
+        Route::get('verifikasi-admin/{id}', [ComplaintController::class, 'verifikasiAdmin'])->name('data-pengaduan.verifikasi-admin');
+        Route::post('verifikasi-admin-process/{id}', [ComplaintController::class, 'verifikasiAdminProcess'])->name('data-pengaduan.verifikasi-admin-process');
+    });
+    // Route::resource('pengaduan-saya', MyComplaintController::class);
+
     Route::prefix('informasi-desa')->group(function () {
         Route::get('/', [InformationController::class, 'index'])->name('informasi-desa.index');
         Route::get('/create', [InformationController::class, 'create'])->name('informasi-desa.create');
@@ -109,7 +134,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('{id}/verify', [UserController::class, 'verify'])->name('verifikasi-pendaftaran.verify');
     });
 
-    Route::get('pengajuan-saya/print/{id}', [MyRequestController::class, 'print'])->name('pengajuan-saya.print');
+
+    Route::get('profile', [UserController::class, 'profile'])->name('profile.index');
+    Route::put('profile/update', [UserController::class, 'profile'])->name('profile.update');
+    
+    
 });
 
 // Route::resource('data-masyarakat', ResidentController::class);

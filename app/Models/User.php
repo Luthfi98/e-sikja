@@ -96,4 +96,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(RequestLetter::class, 'user_id', 'id');
     }
+
+    
+    /**
+     * Get the complaints that owns a User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function complaints(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Complaint::class, 'user_id', 'id');
+    }
 }

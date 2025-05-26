@@ -16,7 +16,7 @@ class UserController extends Controller
     
     public function __construct()
     {
-        if (Auth::user()->role != 'admin') {
+        if (Auth::user()->role != 'admin' && (request()->routeIs('profile.index') === false && request()->routeIs('profile.update') === false)) {
             return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
         }
     }
@@ -242,5 +242,92 @@ class UserController extends Controller
         return redirect()
             ->route('manajemen-pengguna.index')
             ->with('success', 'Data Pengguna berhasil diverifikasi');
+    }
+
+    public function profile(Request $request)
+    {
+        if ($request->isMethod('put')) {
+            $user = Auth::user();
+            
+            // Validate user data
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+                'password' => 'nullable|string|min:8|confirmed',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            try {
+                \DB::beginTransaction();
+                
+                // Update user data
+                $data = $request->all();
+                if (!empty($data['password'])) {
+                    $data['password'] = Hash::make($data['password']);
+                } else {
+                    unset($data['password']);
+                }
+                
+                $user->update($data);
+
+                // If user is masyarakat and has resident data, update resident data
+                if ($user->role === 'masyarakat' && $user->resident) {
+                    $residentValidator = Validator::make($request->all(), [
+                        'kk' => 'required|string|max:20',
+                        'nik' => 'required|string|max:16|unique:residents,nik,' . $user->resident->id,
+                        'pob' => 'required|string|max:100',
+                        'dob' => 'required|date',
+                        'gender' => 'required|in:Laki-laki,Perempuan',
+                        'address' => 'required|string',
+                        'rt' => 'required|string|max:5',
+                        'rw' => 'required|string|max:5',
+                        'village' => 'required|string|max:100',
+                        'district' => 'required|string|max:100',
+                        'religion' => 'required|string|max:20',
+                        'marital_status' => 'required|in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati',
+                        'occupation' => 'required|string|max:100',
+                        'nationality' => 'nullable|string|max:50',
+                        'education' => 'required|string|max:50',
+                        'father_name' => 'nullable|string|max:100',
+                        'mother_name' => 'nullable|string|max:100',
+                    ]);
+
+                    if ($residentValidator->fails()) {
+                        \DB::rollBack();
+                        return redirect()
+                            ->back()
+                            ->withErrors($residentValidator)
+                            ->withInput();
+                    }
+
+                    $user->resident->update($request->all());
+                }
+                
+                \DB::commit();
+                return redirect()
+                    ->back()
+                    ->with('success', 'Profil berhasil diperbarui');
+            } catch (\Exception $e) {
+                \DB::rollback();
+                \Log::error('Error updating profile: ' . $e->getMessage());
+                return redirect()
+                    ->back()
+                    ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                    ->withInput();
+            }
+        } else {
+            $data = [
+                'title' => 'Profil Pengguna',
+                'user' => Auth::user()
+            ];
+            return view('cms.user.profile')->with($data);
+        }
     }
 }

@@ -10,45 +10,8 @@ function indoDate($date){
   <meta charset="UTF-8">
   <title><?= strtoupper($requestType->name) ?></title>
   <link rel="icon" href="{{ asset('storage/settings/logo.png') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/print.css') }}">
   <style>
-    @page {
-        margin-top: 0;
-        margin-left: 3rem;
-        margin-right: 3rem;
-        }
-        
-    body {
-      font-family: 'Times New Roman', Times, serif;
-      /* margin: 50px; */
-      font-size: 15.5px;
-    }
-    .center {
-      text-align: center;
-    }
-    .bold {
-      font-weight: bold;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    td {
-      vertical-align: top;
-      padding: 4px;
-    }
-    .signature-table {
-      margin-top: 60px;
-      width: 100%;
-    }
-    .signature-table td {
-      width: 50%;
-      text-align: center;
-      vertical-align: top;
-    }
-    .logo {
-      width: 70px;
-      height: auto;
-    }
 
   </style>
 </head>

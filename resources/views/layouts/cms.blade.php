@@ -3,333 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Dashboard' }} - Sistem Layanan Surat Menyurat Desa</title>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap5.min.css') }}">
     <!-- DataTables Responsive CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/responsive.bootstrap5.min.css') }}">
     <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2/sweetalert2.min.css') }}">
     <!-- Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="{{ asset('assets/vendor/popper/popper.min.js') }}"></script>
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="{{ asset('assets/vendor/moment/moment.min.js') }}"></script>
     <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap5.min.js') }}"></script>
     <!-- DataTables Responsive JS -->
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/vendor/datatables/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables/js/responsive.bootstrap5.min.js') }}"></script>
     <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <!-- CKEditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
-    <style>
-        :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #357abd;
-            --dark-color: #2c3e50;
-            --light-color: #f8f9fa;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            min-height: 100vh;
-            height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
-            color: #fff;
-            position: fixed;
-            width: 280px;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
-            overflow-x: hidden;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
-        }
-
-        .sidebar.collapsed {
-            width: 80px;
-        }
-
-        .sidebar-header {
-            padding: 25px 20px;
-            background: rgba(0,0,0,0.2);
-            text-align: center;
-            position: relative;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .sidebar-header h3 {
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 600;
-            word-wrap: break-word;
-            color: #fff;
-        }
-
-        .sidebar.collapsed .sidebar-header h3, 
-        .sidebar.collapsed .menu-section, 
-        .sidebar.collapsed .sidebar-menu a span,
-        .sidebar.collapsed small {
-            display: none;
-        }
-
-        .sidebar-menu {
-            padding: 20px 0;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 12px 25px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            word-wrap: break-word;
-            white-space: normal;
-            font-size: 0.95rem;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            color: #fff;
-            background: rgba(255,255,255,0.1);
-            border-left: 3px solid var(--primary-color);
-        }
-
-        .sidebar-menu a i {
-            margin-right: 12px;
-            width: 20px;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-
-        .sidebar.collapsed .sidebar-menu a {
-            padding: 15px 0;
-            text-align: center;
-        }
-
-        .sidebar.collapsed .sidebar-menu a i {
-            margin-right: 0;
-            font-size: 1.3rem;
-        }
-
-        .toggle-sidebar {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            padding: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-sidebar:hover {
-            color: var(--primary-color);
-        }
-
-        .sidebar.collapsed .toggle-sidebar {
-            left: 50%;
-            transform: translate(-50%, -50%);
-            top: 25px;
-        }
-
-        .content {
-            margin-left: 280px;
-            padding: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .content.expanded {
-            margin-left: 80px;
-        }
-
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            border-radius: 10px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: var(--dark-color);
-            font-weight: 500;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger-color);
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 50%;
-            font-weight: 600;
-        }
-
-        .menu-section {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            padding: 15px 25px 5px;
-            margin-top: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .dropdown-menu {
-            border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        .dropdown-item {
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--light-color);
-        }
-
-        .dashboard-card {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .dashboard-card .icon {
-            font-size: 48px;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        .dashboard-card h4 {
-            margin-top: 15px;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .dashboard-card p {
-            color: #6c757d;
-            margin-bottom: 0;
-        }
-
-        .btn-action {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .btn-action:hover {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .role-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        .role-admin {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .role-resident {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .role-operator {
-            background-color: var(--warning-color);
-            color: #212529;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                margin-left: -280px;
-            }
-            .sidebar.collapsed {
-                margin-left: -80px;
-            }
-            .content {
-                margin-left: 0;
-                padding: 15px;
-            }
-            .sidebar.active {
-                margin-left: 0;
-            }
-            .content.active {
-                margin-left: 280px;
-            }
-            .content.expanded.active {
-                margin-left: 80px;
-            }
-            .navbar {
-                padding: 10px 15px;
-            }
-        }
-
-        /* Custom Scrollbar */
-        .sidebar::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.3);
-        }
-    </style>
+    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/cms.css') }}">
 </head>
 <body>
     <!-- Sidebar -->
@@ -360,7 +64,7 @@
                 <a href="{{ route('pengajuan-saya.index') }}" class="{{ request()->is('pengajuan-saya*') ? 'active' : '' }}">
                     <i class="fas fa-envelope"></i> <span>Pengajuan Surat</span>
                 </a>
-                <a href="{{ route('pengajuan-saya.index') }}" class="{{ request()->is('pengajuan-saya*') ? 'active' : '' }}">
+                <a href="{{ route('pengaduan-saya.index') }}" class="{{ request()->is('pengaduan-saya*') ? 'active' : '' }}">
                     <i class="fas fa-bullhorn"></i> <span>Pengaduan</span>
                 </a>
             @elseif (Auth::user()?->role === 'operator')
