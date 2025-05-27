@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-5 mt-5">
-    <h1 class="section-title mb-5">Pengaduan</h1>
+    <h1 class="section-title mb-5" style="margin-top: 20px;">Pengaduan</h1>
 
     <div class="row g-4">
         <!-- Informasi Umum -->

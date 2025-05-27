@@ -58,22 +58,15 @@ class HomeController extends Controller
         return view('landing.complaint');
     }
 
-    public function storeComplaint(Request $request)
+    public function profile()
     {
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu untuk mengirim pengaduan.');
-        }
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string'
-        ]);
-
-        // Here you would typically save the complaint to the database
-        // For now, we'll just redirect back with a success message
-        return redirect()->back()->with('success', 'Pengaduan berhasil dikirim. Tim kami akan segera menghubungi Anda.');
+        $settingsPath = public_path('setting/settings.json');
+        $setting = json_decode(file_get_contents($settingsPath), true)??[];
+        $profile = $setting['profile']??[];
+        $data = [
+            'title' => 'Profil ',
+            'profile' => $profile
+        ];
+        return view('landing.profile')->with($data);
     }
 }

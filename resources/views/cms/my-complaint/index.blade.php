@@ -116,73 +116,101 @@
     </div>
 </div>
 
-<!-- Modal Detail Pengaduan -->
-<div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title" id="complaintModalLabel">Detail Pengaduan</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Pengaduan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Main Information -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <p class="mb-2"><small class="text-muted">Kode Pengaduan</small></p>
-                        <p id="modal-code" class="mb-3"></p>
-                        
-                        <p class="mb-2"><small class="text-muted">Judul</small></p>
-                        <p id="modal-title" class="mb-3"></p>
-                        
-                        <p class="mb-2"><small class="text-muted">Tanggal Kejadian</small></p>
-                        <p id="modal-date" class="mb-3"></p>
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h6 class="card-title mb-0">Informasi Dasar</h6>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <th width="35%">Nomor</th>
+                                        <td id="modal-code"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <td id="modal-date"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pelapor</th>
+                                        <td id="modal-reporter"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Judul</th>
+                                        <td id="modal-title"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td id="modal-status"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-header bg-light">
+                                <h6 class="card-title mb-0">Foto Pendukung</h6>
+                            </div>
+                            <div class="card-body">
+                                <div id="modal-image" class="text-center"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p class="mb-2"><small class="text-muted">Status</small></p>
-                        <p id="modal-status" class="mb-3"></p>
-                        
-                        <p class="mb-2"><small class="text-muted">Lokasi</small></p>
-                        <p id="modal-location" class="mb-3"></p>
-                    </div>
-                </div>
 
-                <hr class="my-4">
+                    <!-- Right Column -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h6 class="card-title mb-0">Detail Pengaduan</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Deskripsi</label>
+                                    <div id="modal-description" class="border p-3 rounded bg-light"></div>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label class="font-weight-bold">Lokasi</label>
+                                    <div id="modal-location" class="border p-3 rounded bg-light"></div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Description -->
-                <div class="mb-4">
-                    <p class="mb-2"><small class="text-muted">Deskripsi Pengaduan</small></p>
-                    <p id="modal-description" class="mb-0"></p>
-                </div>
-
-                <!-- Image -->
-                <div class="mb-4">
-                    <p class="mb-2"><small class="text-muted">Foto Pendukung</small></p>
-                    <div id="modal-image" class="text-center"></div>
-                </div>
-
-                <hr class="my-4">
-
-                <!-- History -->
-                <div>
-                    <p class="mb-3"><small class="text-muted">Riwayat Status</small></p>
-                    <div class="table-responsive">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
-                                    <th>Oleh</th>
-                                    <th>Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="modal-history">
-                            </tbody>
-                        </table>
+                        <div class="card mt-3">
+                            <div class="card-header bg-light">
+                                <h6 class="card-title mb-0">Riwayat Status</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th width="20%">Tanggal</th>
+                                                <th width="15%">Status</th>
+                                                <th>Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="modal-histories">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
@@ -354,6 +382,7 @@ $(document).ready(function() {
             $('#modal-title').text(data.title);
             $('#modal-date').text(data.date);
             $('#modal-location').text(data.location);
+            $('#modal-reporter').text(data.reporter_name || '-');
             $('#modal-status').html('<span class="badge bg-' + 
                 (data.status === 'Diajukan' ? 'primary' : 
                  data.status === 'Diproses' ? 'warning' : 
@@ -378,14 +407,13 @@ $(document).ready(function() {
                      history.status === 'Diproses' ? 'warning' : 
                      history.status === 'Selesai' ? 'success' : 'danger') + 
                     ' text-white">' + history.status + '</span></td>' +
-                    '<td>' + history.user_name + '</td>' +
                     '<td>' + history.note + '</td>' +
                     '</tr>';
             });
-            $('#modal-history').html(historyHtml);
+            $('#modal-histories').html(historyHtml);
             
             // Show modal
-            var modal = new bootstrap.Modal(document.getElementById('complaintModal'));
+            var modal = new bootstrap.Modal(document.getElementById('detailModal'));
             modal.show();
         });
     });

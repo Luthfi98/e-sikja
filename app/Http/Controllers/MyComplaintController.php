@@ -186,6 +186,7 @@ class MyComplaintController extends Controller
         return response()->json([
             'code' => $complaint->code,
             'title' => $complaint->title,
+            'reporter_name' => $complaint->user->name,
             'date' => date('d-m-Y H:i', strtotime($complaint->date)),
             'location' => $complaint->location,
             'status' => $complaint->status,
@@ -309,7 +310,7 @@ class MyComplaintController extends Controller
             ]);
         }
 
-        $complaint = Auth::user()->complaints()->where('code', $nomorPengaduan)->firstOrFail();
+        $complaint = Auth::user()->complaints()->where('code', $nomorPengaduan)->first();
 
         if (!$complaint) {
             return response()->json([

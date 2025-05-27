@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Resident;
+use App\Models\Complaint;
+use App\Models\Information;
+use App\Models\RequestType;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Models\RequestLetter;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -19,11 +25,47 @@ class DashboardController extends Controller
     }
 
     private function admin(){
-        return view('cms.dashboard.admin');
+        $statuses = ['Diajukan','Diproses', 'Ditolak', 'Selesai'];
+        $totalRequest = RequestLetter::whereIn('status', $statuses)->count();
+        $totalComplaint = Complaint::whereIn('status', $statuses)->count();
+        $totalNotification = Notification::where('read', true)->count();
+        $totalResident = Resident::count();
+        $totalInformation = Information::count();
+        $totalLetterType = RequestType::count();
+        $latestRequests = RequestLetter::whereIn('status', $statuses)->latest()->take(5)->get();
+        $latestComplaints = Complaint::whereIn('status', $statuses)->latest()->take(5)->get();
+        
+        $data = [
+            'totalRequest' => $totalRequest,
+            'totalComplaint' => $totalComplaint,
+            'totalNotification' => $totalNotification,
+            'totalResident' => $totalResident,
+            'totalInformation' => $totalInformation,
+            'totalLetterType' => $totalLetterType,
+            'latestRequests' => $latestRequests,
+            'latestComplaints' => $latestComplaints
+        ] ;
+        return view('cms.dashboard.admin')->with($data);
     }
 
     private function operator(){
-        return view('cms.dashboard.operator');
+        $statuses = ['Diajukan','Diproses', 'Ditolak', 'Selesai'];
+        $totalRequest = RequestLetter::whereIn('status', $statuses)->count();
+        $totalComplaint = Complaint::whereIn('status', $statuses)->count();
+        $totalNotification = Notification::where('read', true)->count();
+        $totalResident = Resident::count();
+        $latestRequests = RequestLetter::whereIn('status', $statuses)->latest()->take(5)->get();
+        $latestComplaints = Complaint::whereIn('status', $statuses)->latest()->take(5)->get();
+        
+        $data = [
+            'totalRequest' => $totalRequest,
+            'totalComplaint' => $totalComplaint,
+            'totalNotification' => $totalNotification,
+            'totalResident' => $totalResident,
+            'latestRequests' => $latestRequests,
+            'latestComplaints' => $latestComplaints
+        ] ;
+        return view('cms.dashboard.operator')->with($data);
     }
 
     private function resident(){

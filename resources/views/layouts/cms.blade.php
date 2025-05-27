@@ -77,6 +77,10 @@
                     <i class="fas fa-inbox"></i> <span>Data Pengajuan</span>
                 </a>
 
+                <a href="{{ route('data-pengaduan.index') }}" class="{{ request()->is('data-pengaduan*') ? 'active' : '' }}">
+                    <i class="fas fa-bullhorn"></i> <span>Pengaduan Masyarakat</span>
+                </a>
+
             @else
                 <div class="menu-section">Menu Administrator </div>
                 <a href="{{ URL::to('profil-desa') }}" class="{{ request()->is('profil-desa*') ? 'active' : '' }}">
@@ -96,11 +100,11 @@
                     <i class="fas fa-inbox"></i> <span>Data Pengajuan</span>
                 </a>
 
-                <a href="{{ URL::to('pengaduan-masyarakat') }}" class="{{ request()->is('pengaduan-masyarakat*') ? 'active' : '' }}">
+                <a href="{{ route('data-pengaduan.index') }}" class="{{ request()->is('data-pengaduan.index*') ? 'active' : '' }}">
                     <i class="fas fa-bullhorn"></i> <span>Pengaduan Masyarakat</span>
                 </a>
 
-                <a href="{{ URL::to('manajemen-pengguna') }}" class="{{ request()->is('manajemen-pengguna*') ? 'active' : '' }}">
+                <a href="{{ route('manajemen-pengguna.index') }}" class="{{ request()->is('manajemen-pengguna*') ? 'active' : '' }}">
                     <i class="fas fa-user-tie"></i> <span>Manajemen Pengguna</span>
                 </a>
 
@@ -110,13 +114,9 @@
             <!-- Menu Umum -->
             <div class="menu-section">SETTINGS</div>
 
-            @if(session()->get('role') === 'admin')
-                <a href="{{ URL::to('users') }}" class="{{ request()->is('users') ? 'active' : '' }}">
-                    <i class="fas fa-user-tie"></i> <span>Manajemen User</span>
-                </a>
-                <a href="{{ URL::to('admin/settings') }}" class="{{ request()->is('admin/settings*') ? 'active' : '' }}">
-                    <i class="fas fa-cogs"></i> <span>Settings Management</span>
-                </a>
+            @if(Auth::user()?->role === 'admin')
+                <a href="{{ route('settings.index') }}" class="{{ request()->is('settings') ? 'active' : '' }}">
+                    <i class="fas fa-globe"></i> <span>Website</span>
             @endif
             
             

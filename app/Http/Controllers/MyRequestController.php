@@ -317,6 +317,9 @@ class MyRequestController extends Controller
     public function print($id)
     {
         $requestLetter = Auth::user()->requestLetters()->findOrFail($id);
+        if ($requestLetter->status != 'Selesai') {
+            return redirect()->back()->with('error', 'Pengajuan belum selesai');
+        }
         $data = [
             'title' => 'Print Pengajuan',
             'requestLetter' => $requestLetter,

@@ -11,6 +11,71 @@
     <div class="row">
         <!-- Main Content Area -->
         <div class="col-lg-8">
+            <!-- Pengajuan Statistics -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h4 class="mb-3">Statistik Pengajuan</h4>
+                </div>
+                <!-- Total Pengajuan Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-1">
+                        <div class="card-body p-2">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col">
+                                    <div class="text-xxs font-weight-bold text-info text-uppercase mb-1">
+                                        Total Pengajuan</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['total'] ?? 0 }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pengajuan Diproses Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-1">
+                        <div class="card-body p-2">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col">
+                                    <div class="text-xxs font-weight-bold text-warning text-uppercase mb-1">
+                                        Sedang Diproses</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['Diproses'] ?? 0 }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pengajuan Selesai Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-1">
+                        <div class="card-body p-2">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col">
+                                    <div class="text-xxs font-weight-bold text-success text-uppercase mb-1">
+                                        Selesai</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['Selesai'] ?? 0 }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pengajuan Ditolak Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-danger shadow h-100 py-1">
+                        <div class="card-body p-2">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col">
+                                    <div class="text-xxs font-weight-bold text-danger text-uppercase mb-1">
+                                        Ditolak</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['Ditolak'] ?? 0 }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Pengaduan Statistics -->
             <div class="row mb-4">
                 <div class="col-12">
@@ -77,71 +142,7 @@
                 </div>
             </div>
 
-            <!-- Pengajuan Statistics -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h4 class="mb-3">Statistik Pengajuan</h4>
-                </div>
-                <!-- Total Pengajuan Card -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-1">
-                        <div class="card-body p-2">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col">
-                                    <div class="text-xxs font-weight-bold text-info text-uppercase mb-1">
-                                        Total Pengajuan</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['total'] ?? 0 }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pengajuan Diproses Card -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-1">
-                        <div class="card-body p-2">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col">
-                                    <div class="text-xxs font-weight-bold text-warning text-uppercase mb-1">
-                                        Sedang Diproses</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['Diproses'] ?? 0 }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pengajuan Selesai Card -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body p-2">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col">
-                                    <div class="text-xxs font-weight-bold text-success text-uppercase mb-1">
-                                        Selesai</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['Selesai'] ?? 0 }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pengajuan Ditolak Card -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-danger shadow h-100 py-1">
-                        <div class="card-body p-2">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col">
-                                    <div class="text-xxs font-weight-bold text-danger text-uppercase mb-1">
-                                        Ditolak</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $countRequest['Ditolak'] ?? 0 }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         <!-- Right Sidebar -->
@@ -536,7 +537,7 @@ function checkPengaduan(event) {
                             <strong>${item.status}</strong>
                             <small class="text-muted float-end">${new Intl.DateTimeFormat('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.date))}</small>
                         </div>
-                        ${item.notes ? `<p class="mb-0 small">${item.notes}</p>` : ''}
+                        ${item.note ? `<p class="mb-0 small">${item.note}</p>` : ''}
                     `;
                     historyTimeline.appendChild(historyItem);
                 });

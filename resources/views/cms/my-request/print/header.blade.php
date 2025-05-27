@@ -2,12 +2,12 @@
   <tr>
     
     <td class="bold" style="text-align: center; margin:left: 100px !important;">
-    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/settings/logo.png'))) }}" class="logo" style="position: absolute; top: 5px; left: 0; width: 100px; height: auto;">
+    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('setting/'.$setting['logo']))) }}" class="logo" style="position: absolute; top: 5px; left: 0; width: 100px; height: auto;">
       <h3 style="margin:3px; margin-left: 0px;">PEMERINTAH KABUPATEN KARANGANYAR</h3>
       <h3 style="margin:3px; margin-left: 0px;">KECAMATAN KARANGANYAR</h3>
       <h3 style="margin:3px; margin-left: 0px;">KELURAHAN JANTIHARJO</h3>
-      <h5 style="margin:3px; margin-left: 0px;">Jl. R.M. SAID No.135 No. Kode Pos 57716</h5>
-      <h5 style="margin:3px; margin-left: 0px;">Email:Jantiharjo@KaranganyarKab.go.id</h5>
+      <h5 style="margin:3px; margin-left: 0px;">{{ $setting['alamat'] }}</h5>
+      <h5 style="margin:3px; margin-left: 0px;">Email:{{ $setting['email'] }}</h5>
     </td>
   </tr>
 </table>

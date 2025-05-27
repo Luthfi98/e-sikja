@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\RequestLetter;
-use App\Models\HistoryRequestLetter;
-use App\Models\Notification;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Facades\DataTables;
+use App\Models\HistoryRequestLetter;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class RequestController extends Controller
 {
@@ -26,23 +27,30 @@ class RequestController extends Controller
                 ->when($request->status && $request->status != 'semua', function($q) use ($request) {
                     return $q->where('status', $request->status);
                 });
-            if (Auth::user()->role == 'admin') {
-                $query = $query->whereIn('status', ['Diproses', 'Ditolak', 'Selesai']);
-            }else{
-                // $query = $query->where('status', '!=' ,'Diajukan');
-            }
+            // if (Auth::user()->role == 'admin') {
+            //     $query = $query->whereIn('status', ['Diproses', 'Ditolak', 'Selesai']);
+            // }else{
+            //     // $query = $query->where('status', '!=' ,'Diajukan');
+            // }
 
             return DataTables::of($query)
                 ->addIndexColumn()
+                ->editColumn('created_at', function($row) {
+                    return date('d-m-Y', strtotime($row->created_at));
+                })
                 ->addColumn('request_type', function($row) {
                     return $row->requestType->name;
                 })
                 ->addColumn('action', function($row) {
                     $actionBtn = '';
                     
-                    if ($row->status == 'Diajukan' || ($row->status == 'Diproses' && Auth::user()->role == 'admin')) {
+                    if (($row->status == 'Diajukan' && Auth::user()->role == 'operator') || ($row->status == 'Diproses' && Auth::user()->role == 'admin')) {
                         $actionBtn = '<a href="'.route('data-pengajuan.verifikasi-'.Auth::user()->role, $row->id).'" class="btn btn-sm btn-primary">
                             <i class="fas fa-check"></i> Verifikasi
+                        </a>';
+                    }elseif ($row->status == 'Selesai' && Auth::user()->role == 'admin') {
+                        $actionBtn = '<a target="_blank" href="'.route('data-pengajuan.print', $row->id).'" class="btn btn-sm btn-success">
+                            <i class="fas fa-print"></i> Print
                         </a>';
                     } else {
                         $actionBtn = '<a href="'.route('data-pengajuan.show', $row->id).'" class="btn btn-sm btn-info">
@@ -161,6 +169,7 @@ class RequestController extends Controller
                     'link' => '/pengajuan-saya/show/' . $requestLetter->id
                 ]);
             }
+            // dd($requestLetter);
             
 
             // Send notification to user
@@ -174,10 +183,31 @@ class RequestController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'Status pengajuan berhasil diperbarui');
+            return redirect()->route('data-pengajuan.show', $requestLetter->id)->with('success', 'Status pengajuan berhasil diperbarui');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function print($id)
+    {
+        $requestLetter = RequestLetter::findOrFail($id);
+        if ($requestLetter->status != 'Selesai') {
+            return redirect()->back()->with('error', 'Pengajuan belum selesai');
+        }
+        $data = [
+            'title' => 'Print Pengajuan',
+            'requestLetter' => $requestLetter,
+            'requestType' => $requestLetter->requestType,
+            'resident' => $requestLetter->user->resident,
+            'lastHistory' => $requestLetter->historyRequestLetters->last(),
+            'data' => json_decode($requestLetter->data)
+        ];
+
+        $pdf = PDF::loadView('cms.my-request.print.'.strtolower($data['requestType']->code), $data)
+            ->setPaper('a4');
+        $filename = 'pengajuan-' . str_replace(['/', '\\'], '-', $requestLetter->code) . '.pdf';
+        return $pdf->stream($filename);
     }
 }

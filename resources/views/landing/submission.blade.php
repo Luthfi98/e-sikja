@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-5 mt-5">
-    <h1 class="section-title mb-5">Alur Pengajuan Surat</h1>
+    <h1 class="section-title mb-5" style="margin-top: 20px;">Alur Pengajuan Surat</h1>
 
     <div class="row g-4">
         <!-- Informasi Umum -->
@@ -117,5 +117,6 @@
     .timeline-item:last-child:after {
         display: none;
     }
+    
 </style>
 @endsection 

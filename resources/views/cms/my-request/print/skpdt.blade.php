@@ -3,13 +3,57 @@ function indoDate($date){
   return \Carbon\Carbon::parse($date)->locale('id')->isoFormat('dddd D MMMM Y');
 }
 @endphp
+@php
+   $settingsPath = public_path('setting/settings.json');
+  $setting = json_decode(file_get_contents($settingsPath), true)??[];
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <title><?= strtoupper($requestType->name) ?></title>
   <link rel="icon" href="{{ asset('storage/settings/logo.png') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/print.css') }}">
+
+<style>
+@page {
+        margin-top: 0;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        }
+        
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      /* margin: 50px; */
+      font-size: 15.5px;
+    }
+    .center {
+      text-align: center;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td {
+      vertical-align: top;
+      padding: 4px;
+    }
+    .signature-table {
+      margin-top: 60px;
+      width: 100%;
+    }
+    .signature-table td {
+      width: 50%;
+      text-align: center;
+      vertical-align: top;
+    }
+    .logo {
+      width: 70px;
+      height: auto;
+    }</style>
+  
   <style>
 
   </style>
@@ -122,8 +166,17 @@ function indoDate($date){
         </td>
     </tr>
     <tr>
-        <td width="60%" style="text-align: center; padding-top: 100px;"></td>
-        <td colspan="3" style="text-align: center; vertical-align: bottom;">Budi Triyono, S.Sos.MM</td>
+         <td width="60%" style="text-align: center; padding-top: 100px;">
+            @if ($setting['cap_lurah'])
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('setting/'.$setting['cap_lurah']))) }}" class="logo" style="position: absolute; top: 47rem; left: 25rem; width: 250px; height: auto;">
+                
+            @endif
+            @if ($setting['ttd_lurah'])
+                
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('setting/'.$setting['ttd_lurah']))) }}" class="logo" style="position: absolute; top: 46rem; left: 28rem; width: 200px; height: auto;">
+            @endif
+        </td>
+        <td colspan="3" style="text-align: center; vertical-align: bottom;">{{  $setting['nama_lurah'] }}</td>
     </tr>
 </table>
 </body>

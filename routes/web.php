@@ -2,24 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ResidentController;
-use App\Http\Controllers\MyRequestController;
-use App\Http\Controllers\RequestTypeController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MyRequestController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\MyComplaintController;
-use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\RequestTypeController;
+use App\Http\Controllers\NotificationController;
 
 
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 Route::get('pengajuan', [HomeController::class, 'submission'])->name('pengajuan.index');
 Route::get('pengaduan', [HomeController::class, 'complaint'])->name('pengaduan.index');
-Route::post('pengaduan', [HomeController::class, 'storeComplaint'])->name('complaint.store');
+// Route::post('pengaduan', [HomeController::class, 'storeComplaint'])->name('complaint.store');
+Route::get('profil', [HomeController::class, 'profile'])->name('profil.index');
 
 
 Route::get('/informasi', [HomeController::class, 'information'])->name('informasi.index');
@@ -69,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('data-pengajuan')->group(function () {
         Route::get('/', [RequestController::class, 'index'])->name('data-pengajuan.index');
         Route::get('show/{id}', [RequestController::class, 'show'])->name('data-pengajuan.show');
+        Route::get('/print/{id}', [RequestController::class, 'print'])->name('data-pengajuan.print');
 
         Route::get('verifikasi-operator/{id}', [RequestController::class, 'verifikasiOperator'])->name('data-pengajuan.verifikasi-operator');
         Route::put('verifikasi-operator/{id}', [RequestController::class, 'updateVerifikasi'])->name('verifikasi-operator.update');
@@ -139,7 +142,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile', [UserController::class, 'profile'])->name('profile.index');
     Route::put('profile/update', [UserController::class, 'profile'])->name('profile.update');
     
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings/store', [SettingController::class, 'save'])->name('settings.store');
+
+    Route::get('profil-desa', [SettingController::class, 'profile'])->name('profil-desa.index');
+    Route::post('profil-desa/store', [SettingController::class, 'saveProfile'])->name('profil-desa.store');
+    
     
 });
 
 // Route::resource('data-masyarakat', ResidentController::class);
+
