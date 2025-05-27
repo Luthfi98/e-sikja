@@ -97,7 +97,9 @@
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $notifications->links() }}
+                    <div class="d-flex justify-content-center">
+                        {{ $notifications->appends(request()->query())->links('pagination::bootstrap-4') }}
+                    </div>
                 </div>
             </div>
         </div>

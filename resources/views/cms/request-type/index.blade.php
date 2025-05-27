@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"></h5>
-                    <a href="{{ route('jenis-permohonan.create') }}" class="btn btn-primary">
+                    <a href="{{ route('jenis-permohonan.create') }}" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus"></i> Tambah Baru
                     </a>
                 </div>

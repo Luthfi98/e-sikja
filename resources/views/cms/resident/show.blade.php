@@ -91,6 +91,10 @@
                                     <td>{{ $resident->rt }}/{{ $resident->rw }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Dusun/Lingkungan</th>
+                                    <td>{{ $resident->sub_village?? '-' }}</td>
+                                </tr>
+                                <tr>
                                     <th>Desa/Kelurahan</th>
                                     <td>{{ $resident->village }}</td>
                                 </tr>

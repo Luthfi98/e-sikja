@@ -256,7 +256,7 @@
                             </div>
 
                             <div class="row mt-3">
-                                <div class="col-md-3">
+                                <div class="col-md-1">
                                     <div class="form-group">
                                         <label for="rt">RT <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('rt') is-invalid @enderror" id="rt" name="rt" value="{{ old('rt', auth()->user()->resident->rt) }}" required>
@@ -265,11 +265,20 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-1">
                                     <div class="form-group">
                                         <label for="rw">RW <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('rw') is-invalid @enderror" id="rw" name="rw" value="{{ old('rw', auth()->user()->resident->rw) }}" required>
                                         @error('rw')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sub_village">Dusun/Lingkungan <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control @error('sub_village') is-invalid @enderror" id="sub_village" name="sub_village" value="{{ old('sub_village', auth()->user()->resident->sub_village) }}" required>
+                                        @error('sub_village')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -283,7 +292,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="district">Kecamatan <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('district') is-invalid @enderror" id="district" name="district" value="{{ old('district', auth()->user()->resident->district) }}" required>

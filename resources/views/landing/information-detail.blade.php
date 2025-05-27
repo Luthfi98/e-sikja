@@ -1,8 +1,8 @@
 @extends('layouts.landing')
 
 @section('content')
-<div class="container py-5 mt-5">
-    <div class="row">
+<div class="container py-5 mt-5" >
+    <div class="row " style="margin-top: 20px;">
         <div class="col-lg-8 mx-auto">
             <!-- Back Button -->
             <div class="mb-4">
@@ -32,6 +32,27 @@
 
                 <div class="content">
                     {!! $information->description !!}
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-5 pt-4 border-top">
+                    @if($prevInformation)
+                        <a href="{{ route('informasi.show', $prevInformation->slug) }}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            {{ Str::limit($prevInformation->title, 30) }}
+                        </a>
+                    @else
+                        <div></div>
+                    @endif
+
+                    @if($nextInformation)
+                        <a href="{{ route('informasi.show', $nextInformation->slug) }}" class="btn btn-sm btn-outline-primary">
+                            {{ Str::limit($nextInformation->title, 30) }}
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    @else
+                        <div></div>
+                    @endif
                 </div>
             </div>
         </div>

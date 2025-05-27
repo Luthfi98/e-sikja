@@ -20,6 +20,7 @@ class Resident extends Model
         'address',
         'rt',
         'rw',
+        'sub_village',
         'village',
         'district',
         'religion',

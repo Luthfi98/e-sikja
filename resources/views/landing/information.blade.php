@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row d-flex justify-content-center">
         @forelse($informations as $information)
             <div class="col-md-4 mb-4">
                 <div class="info-card h-100">
@@ -45,8 +45,10 @@
 
     <!-- Pagination -->
     <div class="row mt-4">
-        <div class="col-12 d-flex justify-content-center">
-            {{ $informations->links() }}
+        <div class="col-12">
+            <nav aria-label="Page navigation">
+                {{ $informations->links('pagination::bootstrap-5') }}
+            </nav>
         </div>
     </div>
 

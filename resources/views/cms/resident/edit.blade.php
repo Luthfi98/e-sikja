@@ -114,7 +114,19 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sub_village">Dusun/Lingkungan</label>
+                                    <input type="text" class="form-control @error('sub_village') is-invalid @enderror" id="sub_village" name="sub_village" value="{{ old('sub_village', $resident->sub_village) }}" maxlength="100">
+                                    @error('sub_village')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="village">Desa/Kelurahan <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('village') is-invalid @enderror" id="village" name="village" value="{{ old('village', $resident->village) }}" maxlength="100" required>
@@ -123,7 +135,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="district">Kecamatan <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('district') is-invalid @enderror" id="district" name="district" value="{{ old('district', $resident->district) }}" maxlength="100" required>

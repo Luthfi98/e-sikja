@@ -24,7 +24,7 @@ class NotificationController extends Controller
                 $query->where('read', false);
             }
         }else{
-            $query->where('read', false);
+            // $query->where('read', false);
         }
 
         // Filter by type

@@ -4,6 +4,7 @@
   $profile = $setting['profile']??[];
 
   $user = Auth::user();
+  $unreadNotification = $user->notifications()->where('read', false)->count();
 @endphp
 
 
@@ -56,6 +57,7 @@
             <h3>{{ $setting['website_name'] }}</h3>
             <small>
                 {{ $user->name }}
+                <br>
                 @if($user->role === 'admin')
                     <span class="role-badge role-admin">Admin</span>
                 @elseif($user->role === 'operator')
@@ -117,33 +119,32 @@
                 <a href="{{ route('data-pengaduan.index') }}" class="{{ request()->is('data-pengaduan.index*') ? 'active' : '' }}">
                     <i class="fas fa-bullhorn"></i> <span>Pengaduan Masyarakat</span>
                 </a>
-
+                
                 <a href="{{ route('manajemen-pengguna.index') }}" class="{{ request()->is('manajemen-pengguna*') ? 'active' : '' }}">
                     <i class="fas fa-user-tie"></i> <span>Manajemen Pengguna</span>
                 </a>
 
-            @endif
-            
-            
-            <!-- Menu Umum -->
-            <div class="menu-section">SETTINGS</div>
-
-            @if($user?->role === 'admin')
                 <a href="{{ route('settings.index') }}" class="{{ request()->is('settings') ? 'active' : '' }}">
                     <i class="fas fa-globe"></i> <span>Website</span>
+                </a>
+
             @endif
-            
-            
-            <a href="{{ route('profile.index') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
-                <i class="fas fa-user-circle"></i> <span>Profil Saya</span>
+
+        </div>
+
+        <!-- Bottom Menu -->
+        <div class="sidebar-bottom-menu">
+            <a href="{{ route('profile.index') }}" class="{{ request()->is('profile') ? 'active' : '' }}" title="Profil Saya">
+                <i class="fas fa-user-circle"></i>
             </a>
-            
-            <a href="{{ route('notifikasi.index') }}" class="{{ request()->is('notifikasi') ? 'active' : '' }}">
-                <i class="fas fa-bell"></i> <span>Notifikasi</span>
+            <a href="{{ route('notifikasi.index') }}" class="{{ request()->is('notifikasi') ? 'active' : '' }} position-relative" title="Notifikasi">
+                <i class="fas fa-bell"></i>
+                @if($unreadNotification)
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">{{ $unreadNotification }}</span>
+                @endif
             </a>
-            
-            <a href="{{ URL::to('auth/logout') }}">
-                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            <a href="{{ route('logout') }}" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
             </a>
         </div>
     </nav>
@@ -162,8 +163,15 @@
                             <i class="fas fa-user-circle me-1"></i> {{ $user->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="{{ URL::to('profile') }}"><i class="fas fa-user me-2"></i> Profil</a></li>
-                            <li><a class="dropdown-item" href="{{ URL::to('notifikasi') }}"><i class="fas fa-bell me-2"></i> Notifikasi</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i class="fas fa-user me-2"></i> Profil</a></li>
+                            <li>
+                                <a class="dropdown-item {{ request()->is('notifikasi') ? 'active' : '' }}" href="{{ route('notifikasi.index') }}">
+                                    <i class="fas fa-bell me-2"></i> Notifikasi
+                                    @if($unreadNotification)
+                                        <span class="badge bg-danger rounded-pill ms-2">{{ $unreadNotification }}</span>
+                                    @endif
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                         </ul>

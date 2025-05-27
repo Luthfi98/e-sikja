@@ -288,6 +288,7 @@ class UserController extends Controller
                         'address' => 'required|string',
                         'rt' => 'required|string|max:5',
                         'rw' => 'required|string|max:5',
+                        'sub_village' => 'nullable|string|max:100',
                         'village' => 'required|string|max:100',
                         'district' => 'required|string|max:100',
                         'religion' => 'required|string|max:20',

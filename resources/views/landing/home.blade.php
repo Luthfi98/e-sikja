@@ -124,56 +124,10 @@
                         <div class="card-content">
                             <h3>{{ $information->title }}</h3>
                             <p>{!! Str::limit($information->description, 250) !!}</p>
-                            <a href="{{ route('informasi.show', $information->id.'-'. $information->slug) }}" class="btn btn-sm btn-primary">Lihat Selengkapnya</a>
+                            <a href="{{ route('informasi.show', $information->slug) }}" class="btn btn-sm btn-primary">Lihat Selengkapnya</a>
                         </div>
                     </div>
                 @endforeach
-
-                    <div class="info-article-card">
-                        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sejarah Desa">
-                        <div class="card-content">
-                            <h3>Sejarah Desa Sukamaju</h3>
-                            <p>Desa Sukamaju adalah sebuah desa yang kaya akan sejarah dan budaya. Berdiri sejak tahun 1950, desa ini telah mengalami berbagai perkembangan dan perubahan yang signifikan. Masyarakat Desa Sukamaju dikenal dengan semangat gotong royongnya yang tinggi dan komitmennya dalam menjaga nilai-nilai tradisional.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="info-article-card">
-                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Visi & Misi">
-                        <div class="card-content">
-                            <h3>Visi & Misi</h3>
-                            <p>Visi kami adalah menjadikan Desa Sukamaju sebagai desa yang mandiri, maju, dan sejahtera dengan mengedepankan nilai-nilai kearifan lokal. Misi kami meliputi pengembangan ekonomi masyarakat, peningkatan kualitas pendidikan, dan pelestarian budaya desa.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="info-article-card">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Program Unggulan">
-                        <div class="card-content">
-                            <h3>Program Unggulan</h3>
-                            <p>Desa Sukamaju memiliki beberapa program unggulan yang terus dikembangkan:</p>
-                            <ul>
-                                <li>Program Pemberdayaan Ekonomi Masyarakat</li>
-                                <li>Pengembangan Wisata Desa</li>
-                                <li>Pendidikan Karakter Berbasis Budaya</li>
-                                <li>Pengembangan Teknologi Informasi Desa</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="info-article-card">
-                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Potensi Desa">
-                        <div class="card-content">
-                            <h3>Potensi Desa</h3>
-                            <p>Desa Sukamaju memiliki berbagai potensi yang dapat dikembangkan, mulai dari sektor pertanian, peternakan, hingga wisata alam. Masyarakat desa juga dikenal dengan kerajinan tangan dan produk lokal yang berkualitas.</p>
-                        </div>
-                    </div>
-
-                    <div class="info-article-card">
-                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Budaya & Tradisi">
-                        <div class="card-content">
-                            <h3>Budaya & Tradisi</h3>
-                            <p>Kaya akan warisan budaya, Desa Sukamaju tetap mempertahankan berbagai tradisi dan adat istiadat yang telah turun temurun. Kegiatan budaya rutin diadakan untuk melestarikan nilai-nilai luhur masyarakat.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

@@ -22,8 +22,9 @@ return new class extends Migration
             $table->text('address');
             $table->string('rt', 5);
             $table->string('rw', 5);
-            $table->string('village', 100);
-            $table->string('district', 100);
+            $table->string('sub_village', 100)->nullable()->comment('Dusun/Kampung');
+            $table->string('village', 100)->comment('Kelurahan/Desa');
+            $table->string('district', 100)->comment('Kecamatan');
             $table->string('religion', 20);
             $table->enum('marital_status', ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']);
             $table->string('occupation', 100);

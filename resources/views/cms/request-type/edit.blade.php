@@ -33,7 +33,7 @@
                                 <div class="mb-3">
                                     <label for="code" class="form-label">Kode</label>
                                     <input type="text" class="form-control @error('code') is-invalid @enderror" 
-                                           id="code" name="code" value="{{ old('code', $requestType->code) }}" required>
+                                           id="code" name="code" value="{{ old('code', $requestType->code) }}" required readonly>
                                     @error('code')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

@@ -35,14 +35,26 @@ class HomeController extends Controller
 
     public function showInformation($slug)
     {
-
         $information = Information::where('slug', $slug)
             ->where('status', true)
             ->firstOrFail();
 
+        // Get next and previous information
+        $nextInformation = Information::where('status', true)
+            ->where('created_at', '>', $information->created_at)
+            ->orderBy('created_at', 'asc')
+            ->first();
+
+        $prevInformation = Information::where('status', true)
+            ->where('created_at', '<', $information->created_at)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
         $data = [
             'title' => $information->title,
-            'information' => $information
+            'information' => $information,
+            'nextInformation' => $nextInformation,
+            'prevInformation' => $prevInformation
         ];
 
         return view('landing.information-detail')->with($data);

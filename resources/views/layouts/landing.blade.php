@@ -28,7 +28,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('/') }}">
                 <img src="{{ asset('setting/' . $setting['logo']) }}" width="50" height="50" alt="Logo Website">
                 <span>{{ $setting['website_name'] }}</span>
             </a>

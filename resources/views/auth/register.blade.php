@@ -370,6 +370,19 @@
                                 @enderror
                             </div>
 
+                            <div class="mb-3">
+                                <label for="sub_village" class="form-label required-field">Dusun</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    <input id="sub_village" type="text" class="form-control @error('sub_village') is-invalid @enderror" name="sub_village" value="{{ old('sub_village') }}" required>
+                                </div>
+                                @error('sub_village')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label for="rt" class="form-label required-field">RT</label>
