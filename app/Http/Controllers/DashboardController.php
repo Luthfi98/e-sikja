@@ -32,8 +32,8 @@ class DashboardController extends Controller
         $totalResident = Resident::count();
         $totalInformation = Information::count();
         $totalLetterType = RequestType::count();
-        $latestRequests = RequestLetter::whereIn('status', $statuses)->latest()->take(5)->get();
-        $latestComplaints = Complaint::whereIn('status', $statuses)->latest()->take(5)->get();
+        $latestRequests = RequestLetter::whereIn('status', $statuses)->orderBy('updated_at', 'desc')->latest()->take(5)->get();
+        $latestComplaints = Complaint::whereIn('status', $statuses)->orderBy('updated_at', 'desc')->latest()->take(5)->get();
         
         $data = [
             'totalRequest' => $totalRequest,
@@ -54,8 +54,8 @@ class DashboardController extends Controller
         $totalComplaint = Complaint::whereIn('status', $statuses)->count();
         $totalNotification = Notification::where('read', true)->count();
         $totalResident = Resident::count();
-        $latestRequests = RequestLetter::whereIn('status', $statuses)->latest()->take(5)->get();
-        $latestComplaints = Complaint::whereIn('status', $statuses)->latest()->take(5)->get();
+        $latestRequests = RequestLetter::whereIn('status', $statuses)->orderBy('updated_at', 'desc')->latest()->take(5)->get();
+        $latestComplaints = Complaint::whereIn('status', $statuses)->orderBy('updated_at', 'desc')->latest()->take(5)->get();
         
         $data = [
             'totalRequest' => $totalRequest,
