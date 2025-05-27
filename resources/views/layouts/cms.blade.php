@@ -1,10 +1,23 @@
+@php
+   $settingsPath = public_path('setting/settings.json');
+  $setting = json_decode(file_get_contents($settingsPath), true)??[];
+  $profile = $setting['profile']??[];
+
+  $user = Auth::user();
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Dashboard' }} - Sistem Layanan Surat Menyurat Desa</title>
+    <title>{{ $title ?? 'Dashboard' }} - {{ $setting['website_name'] }}</title>
+     <link rel="icon" href="{{ asset('setting/' . $setting['favicon']) }}" type="image/x-icon') }}">
+    <meta name="description" content="{{ $setting['website_description'] ?? 'Website Sistem Layanan Surat Menyurat Desa' }}">
+
+
     <!-- jQuery -->
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap CSS -->
@@ -39,12 +52,13 @@
     <!-- Sidebar -->
     <nav class="sidebar">
         <div class="sidebar-header">
-            <h3>Sistem Layanan Surat Desa</h3>
+            <img src="{{ asset('setting/' . $setting['logo']) }}" width="50" height="50" alt="Logo">
+            <h3>{{ $setting['website_name'] }}</h3>
             <small>
-                {{ Auth::user()->name }}
-                @if(Auth::user()->role === 'admin')
+                {{ $user->name }}
+                @if($user->role === 'admin')
                     <span class="role-badge role-admin">Admin</span>
-                @elseif(Auth::user()->role === 'operator')
+                @elseif($user->role === 'operator')
                     <span class="role-badge role-operator">Operator</span>
                 @else
                     <span class="role-badge role-resident">Masyarakat</span>
@@ -59,7 +73,7 @@
             <a href="{{ URL::to('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
             </a>
-            @if (Auth::user()?->role === 'masyarakat')
+            @if ($user?->role === 'masyarakat')
                 <div class="menu-section">Menu Masyarakat </div>
                 <a href="{{ route('pengajuan-saya.index') }}" class="{{ request()->is('pengajuan-saya*') ? 'active' : '' }}">
                     <i class="fas fa-envelope"></i> <span>Pengajuan Surat</span>
@@ -67,7 +81,7 @@
                 <a href="{{ route('pengaduan-saya.index') }}" class="{{ request()->is('pengaduan-saya*') ? 'active' : '' }}">
                     <i class="fas fa-bullhorn"></i> <span>Pengaduan</span>
                 </a>
-            @elseif (Auth::user()?->role === 'operator')
+            @elseif ($user?->role === 'operator')
                 <div class="menu-section">Menu Operator </div>
                 <a href="{{ route('data-masyarakat.index') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> <span>Data Masyarakat</span>
@@ -83,8 +97,8 @@
 
             @else
                 <div class="menu-section">Menu Administrator </div>
-                <a href="{{ URL::to('profil-desa') }}" class="{{ request()->is('profil-desa*') ? 'active' : '' }}">
-                    <i class="fas fa-clipboard-list"></i> <span>Profil Desa</span>
+                <a href="{{ route('profil-desa.index') }}" class="{{ request()->is('profil-desa*') ? 'active' : '' }}">
+                    <i class="fas fa-clipboard-list"></i> <span>Profil Instansi</span>
                 </a>
                 
                 <a href="{{ route('informasi-desa.index') }}" class="{{ request()->is('informasi-desa*') ? 'active' : '' }}">
@@ -114,17 +128,17 @@
             <!-- Menu Umum -->
             <div class="menu-section">SETTINGS</div>
 
-            @if(Auth::user()?->role === 'admin')
+            @if($user?->role === 'admin')
                 <a href="{{ route('settings.index') }}" class="{{ request()->is('settings') ? 'active' : '' }}">
                     <i class="fas fa-globe"></i> <span>Website</span>
             @endif
             
             
-            <a href="{{ URL::to('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
-                <i class="fas fa-user-circle"></i> <span>My Profile</span>
+            <a href="{{ route('profile.index') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
+                <i class="fas fa-user-circle"></i> <span>Profil Saya</span>
             </a>
             
-            <a href="{{ URL::to('notifikasi') }}" class="{{ request()->is('notifikasi') ? 'active' : '' }}">
+            <a href="{{ route('notifikasi.index') }}" class="{{ request()->is('notifikasi') ? 'active' : '' }}">
                 <i class="fas fa-bell"></i> <span>Notifikasi</span>
             </a>
             
@@ -145,7 +159,7 @@
                 <div class="ms-auto d-flex align-items-center">
                     <div class="dropdown">
                         <button class="btn btn-link nav-link dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                            <i class="fas fa-user-circle me-1"></i> {{ $user->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="{{ URL::to('profile') }}"><i class="fas fa-user me-2"></i> Profil</a></li>

@@ -29,7 +29,11 @@ class SettingController extends Controller
     public function profile()
     {
         $settings = $this->getSettings();
-        return view('cms.setting.profile', compact('settings'));
+        $data = [
+            'title' => 'Profil Instansi',
+            'settings' => $settings
+        ];
+        return view('cms.setting.profile')->with($data);
     }
 
     public function saveProfile(Request $request)

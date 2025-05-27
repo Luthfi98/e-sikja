@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Pengaturan Profil Desa</h3>
+                    <h5 class="card-title">Pengaturan {{ $title }}</h5>
                 </div>
                 <div class="card-body">
                     @if(session('success'))
@@ -62,7 +62,9 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <div class="mt-3 text-end">
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
                     </form>
                 </div>
             </div>
