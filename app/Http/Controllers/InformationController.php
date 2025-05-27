@@ -7,9 +7,19 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class InformationController extends Controller
 {
+    protected string $pathUpload;
+    public function __construct()
+    {
+        if (Auth::user()->role != 'admin') {
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
+
+        $this->pathUpload = public_path('uploads/information/');
+    }
     public function index()
     {
         if (request()->ajax()) {
@@ -38,7 +48,7 @@ class InformationController extends Controller
                 })
                 ->addColumn('image_preview', function ($information) {
                     return $information->image 
-                        ? '<img src="' . asset('storage/' . $information->image) . '" class="img-thumbnail" width="50">'
+                        ? '<img src="' . asset($information->image) . '" class="img-thumbnail" width="50">'
                         : '<span class="text-muted">No Image</span>';
                 })
                 ->rawColumns(['action', 'status_badge', 'image_preview'])
@@ -74,7 +84,10 @@ class InformationController extends Controller
         $data['user_id'] = auth()->id();
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('informations', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($this->pathUpload, $imageName);
+            $data['image'] = 'uploads/information/' . $imageName;
         }
 
         Information::create($data);
@@ -120,9 +133,16 @@ class InformationController extends Controller
         if ($request->hasFile('image')) {
             // Delete old image
             if ($information->image) {
-                Storage::disk('public')->delete($information->image);
+                $oldImagePath = public_path($information->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
-            $data['image'] = $request->file('image')->store('informations', 'public');
+            
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($this->pathUpload, $imageName);
+            $data['image'] = 'uploads/information/' . $imageName;
         }
 
         $information->update($data);
@@ -133,8 +153,13 @@ class InformationController extends Controller
 
     public function destroy($id)
     {
+        $information = Information::findOrFail($id);
+        
         if ($information->image) {
-            Storage::disk('public')->delete($information->image);
+            $imagePath = public_path($information->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
         
         $information->delete();

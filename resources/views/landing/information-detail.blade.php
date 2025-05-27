@@ -14,7 +14,7 @@
             <!-- Information Detail Card -->
             <div class="info-card">
                 @if($information->image)
-                    <img src="{{ asset('storage/' . $information->image) }}" 
+                    <img src="{{ asset( $information->image) }}" 
                          alt="{{ $information->title }}" 
                          class="img-fluid rounded mb-4 w-100"
                          style="max-height: 400px; object-fit: cover;">

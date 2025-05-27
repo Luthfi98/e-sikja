@@ -49,7 +49,7 @@
                                     <label for="image">Gambar</label>
                                     @if($information->image)
                                         <div class="mb-2">
-                                            <img src="{{ asset('storage/' . $information->image) }}" 
+                                            <img src="{{ asset($information->image) }}" 
                                                 alt="{{ $information->title }}" class="img-thumbnail" style="max-height: 200px">
                                         </div>
                                     @endif

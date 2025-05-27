@@ -25,7 +25,7 @@
                     <h2 class="card-title mb-4">{{ $information->title }}</h2>
                     @if($information->image)
                         <div class="text-center mb-4">
-                            <img src="{{ asset('storage/' . $information->image) }}" class="img-fluid" alt="{{ $information->title }}" style="max-height: 400px;">
+                            <img src="{{ asset($information->image) }}" class="img-fluid" alt="{{ $information->title }}" style="max-height: 400px;">
                         </div>
                     @endif
                     
