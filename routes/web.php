@@ -15,7 +15,17 @@ use App\Http\Controllers\MyComplaintController;
 use App\Http\Controllers\RequestTypeController;
 use App\Http\Controllers\NotificationController;
 
+Route::fallback(function () {
+    if(Auth::user()){
+        return response()->view('errors.404', [], 404);
+        
+    }else{
+        return response()->view('errors.404ns', [], 404);
 
+    }
+})->name('error.404');
+
+// Route::get('/error/{code}', [\App\Http\Controllers\ErrorController::class, 'index'])->name('error.index');
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 Route::get('pengajuan', [HomeController::class, 'submission'])->name('pengajuan.index');
