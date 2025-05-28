@@ -99,7 +99,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($recentPengajuan ?? [] as $pengajuan)
+                                @forelse($latestRequests ?? [] as $pengajuan)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $pengajuan->nama }}</td>
