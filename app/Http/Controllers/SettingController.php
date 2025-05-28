@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -11,6 +12,9 @@ class SettingController extends Controller
 
     public function __construct()
     {
+        if(Auth::user()->role != 'admin') {
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
         $this->settingsPath = public_path('setting/settings.json');
     }
 

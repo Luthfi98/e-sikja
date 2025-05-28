@@ -13,6 +13,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ComplaintController extends Controller
 {
+    public function __construct()
+    {
+        if (Auth::user()->role == 'masyarakat') {
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
+    }
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -76,6 +82,9 @@ class ComplaintController extends Controller
     }
 
     public function verifikasiOperator($id){
+        if(Auth::user()->role != 'operator'){
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
         $complaint = Complaint::with('user')->findOrFail($id);
         // dd(json_decode($complaint->histories));
         $data = [
@@ -86,6 +95,10 @@ class ComplaintController extends Controller
     }
 
     public function verifikasiAdmin($id){
+        // dd($id, Auth::user()->role);
+        if(Auth::user()->role != 'admin'){
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
         $complaint = Complaint::with('user')->findOrFail($id);
         $data = [
             'title' => 'Verifikasi Admin',
@@ -96,6 +109,9 @@ class ComplaintController extends Controller
 
     public function verifikasiProcess(Request $request, $id)
     {
+        if(Auth::user()->role != 'operator'){
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
         $request->validate([
             'status' => 'required|in:Diproses,Ditolak',
             'notes' => 'nullable|string|min:10'
@@ -145,6 +161,9 @@ class ComplaintController extends Controller
 
     public function verifikasiAdminProcess(Request $request, $id)
     {
+        if(Auth::user()->role != 'admin'){
+            return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
+        }
         $request->validate([
             'status' => 'required|in:Selesai,Ditolak',
             'notes' => 'nullable|string|min:10'
