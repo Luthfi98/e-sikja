@@ -79,7 +79,7 @@
                                         <h5 class="card-title border-bottom pb-2 mb-4">Bukti Pengaduan</h5>
                                         @if($complaint->image)
                                             <div class="text-center">
-                                                <img src="{{ asset('storage/' . $complaint->image) }}" alt="Bukti Pengaduan" class="img-fluid rounded" style="max-height: 300px;">
+                                                <img src="{{ asset( $complaint->image) }}" alt="Bukti Pengaduan" class="img-fluid rounded" style="max-height: 300px;">
                                             </div>
                                         @else
                                             <div class="alert alert-info">

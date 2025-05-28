@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('request_type_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('code', 10)->unique();
-            $table->string('document_number', 20)->nullable()->unique();
+            $table->string('code', 50)->unique();
+            $table->string('document_number', 50)->nullable()->unique();
             $table->json('data')->nullable();
             $table->enum('status', ['Diajukan','Diproses', 'Selesai', 'Ditolak'])->default('Diajukan');
             $table->timestamps();

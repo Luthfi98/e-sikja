@@ -21,7 +21,7 @@
             <div class="col-md-4 mb-4">
                 <div class="info-card h-100">
                     @if($information->image)
-                        <img src="{{ asset('storage/' . $information->image) }}" alt="{{ $information->title }}" class="img-fluid rounded mb-2" style="max-height: 200px; width: 100%; object-fit: cover;">
+                        <img src="{{ asset($information->image) }}" alt="{{ $information->title }}" class="img-fluid rounded mb-2" style="max-height: 200px; width: 100%; object-fit: cover;">
                     @endif
                     <h4 class="mb-2">{{ Str::limit($information->title, 50) }}</h4>
                     <p class="text-muted small mb-2">

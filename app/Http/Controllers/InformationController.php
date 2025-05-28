@@ -18,7 +18,7 @@ class InformationController extends Controller
             return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
         }
 
-        $this->pathUpload = public_path('uploads/information/');
+        $this->pathUpload = public_path('uploads/informations/');
     }
     public function index()
     {
@@ -87,7 +87,7 @@ class InformationController extends Controller
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move($this->pathUpload, $imageName);
-            $data['image'] = 'uploads/information/' . $imageName;
+            $data['image'] = 'uploads/informations/' . $imageName;
         }
 
         Information::create($data);
@@ -142,7 +142,7 @@ class InformationController extends Controller
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move($this->pathUpload, $imageName);
-            $data['image'] = 'uploads/information/' . $imageName;
+            $data['image'] = 'uploads/informations/' . $imageName;
         }
 
         $information->update($data);

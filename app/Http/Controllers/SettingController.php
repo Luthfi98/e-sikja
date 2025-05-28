@@ -26,6 +26,59 @@ class SettingController extends Controller
         return view('cms.setting.index')->with($data);
     }
 
+    public function save(Request $request)
+    {
+        $settings = $this->getSettings();
+        
+        // Handle file uploads
+        $fileFields = ['logo', 'favicon', 'ttd_lurah', 'cap_lurah'];
+        foreach ($fileFields as $field) {
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
+                
+                // Delete old file if exists
+                if (isset($settings[$field]) && File::exists(public_path('setting/' . $settings[$field]))) {
+                    File::delete(public_path('setting/' . $settings[$field]));
+                }
+                
+                // Move new file
+                $file->move(public_path('setting'), $filename);
+                $settings[$field] = $filename;
+            }
+        }
+
+        // Handle text fields
+        $textFields = [
+            'website_name',
+            'website_description',
+            'email',
+            'nama_lurah',
+            'nip_lurah',
+            'alamat',
+            'telepon',
+            'whatsapp',
+            'facebook',
+            'instagram',
+            'twitter',
+            'youtube'
+        ];
+
+        foreach ($textFields as $field) {
+            if ($request->has($field)) {
+                $settings[$field] = $request->input($field);
+            }
+        }
+
+        // Save settings
+        $this->saveSettings($settings);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pengaturan berhasil disimpan'
+        ]);
+    }
+
     public function profile()
     {
         $settings = $this->getSettings();

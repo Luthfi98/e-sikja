@@ -4,19 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Complaint;
+use Illuminate\Support\Str;
 use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class MyComplaintController extends Controller
 {
+    protected string $pathUpload;
+
     public function __construct()
     {
         if (Auth::user()->role != 'masyarakat') {
             return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
         }
+        $this->pathUpload = 'uploads/complaints/';
+        $this->pathPublic = public_path($this->pathUpload);
+
     }
 
     /**
@@ -131,9 +137,12 @@ class MyComplaintController extends Controller
 
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $path = $image->store('complaints', 'public');
-                $complaint->image = $path;
+                $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
+                $image->move($this->pathPublic, $imageName);
+                $complaint->image = $this->pathUpload . $imageName;
             }
+
+
 
             $complaint->save();
 
@@ -191,7 +200,7 @@ class MyComplaintController extends Controller
             'location' => $complaint->location,
             'status' => $complaint->status,
             'description' => $complaint->description,
-            'image' => $complaint->image ? asset('storage/' . $complaint->image) : null,
+            'image' => $complaint->image ? asset( $complaint->image) : null,
             'histories' => $formattedHistories
         ]);
     }
@@ -242,10 +251,18 @@ class MyComplaintController extends Controller
             $complaint->description = $validated['description'];
             $complaint->location = $validated['location'];
 
-            if ($request->hasFile('image')) {
+             if ($request->hasFile('image')) {
+                if ($complaint->image) {
+                    $oldImagePath = public_path($information->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+                
                 $image = $request->file('image');
-                $path = $image->store('complaints', 'public');
-                $complaint->image = $path;
+                $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
+                $image->move($this->pathPublic, $imageName);
+                $complaint->image = $pathUpload . $imageName;
             }
 
             $histories = json_decode($complaint->histories, true);

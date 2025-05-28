@@ -112,7 +112,7 @@
                                                     <span class="badge bg-primary me-2">{{ $index + 1 }}</span>
                                                     <span class="fw-medium">{{ $document->name }}</span>
                                                 </div>
-                                                <a href="{{ asset('storage/' . $document->url) }}" target="_blank" class="btn btn-sm btn-info">
+                                                <a href="{{ asset( $document->url) }}" target="_blank" class="btn btn-sm btn-info">
                                                     <i class="fas fa-eye"></i> Lihat
                                                 </a>
                                             </div>

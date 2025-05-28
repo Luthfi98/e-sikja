@@ -298,7 +298,7 @@ $(document).ready(function() {
             // Show current image if exists
             if (data.image) {
                 $('#current-image').show();
-                $('#current-image img').attr('src', "{{ asset('storage') }}/" + data.image);
+                $('#current-image img').attr('src', data.image);
             } else {
                 $('#current-image').hide();
             }

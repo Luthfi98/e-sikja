@@ -120,7 +120,7 @@
                 <div class="info-scroll-wrapper">
                 @foreach ($informations as $information)
                     <div class="info-article-card">
-                        <img src="{{ asset('storage/'.$information->image) }}" alt="{{ $information->title }}">
+                        <img src="{{ asset($information->image) }}" alt="{{ $information->title }}">
                         <div class="card-content">
                             <h3>{{ $information->title }}</h3>
                             <p>{!! Str::limit($information->description, 250) !!}</p>

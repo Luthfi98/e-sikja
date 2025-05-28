@@ -210,7 +210,7 @@
                     
                     // Handle image
                     if (data.image) {
-                        $('#modal-image').html('<img src="{{ asset("storage") }}/' + data.image + '" class="img-fluid rounded" style="max-height: 200px;">');
+                        $('#modal-image').html('<img src="' + data.image + '" class="img-fluid rounded" style="max-height: 200px;">');
                     } else {
                         $('#modal-image').html('<p class="text-muted">Tidak ada foto</p>');
                     }

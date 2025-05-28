@@ -77,7 +77,7 @@ class RequestController extends Controller
           'requestLetter' => RequestLetter::find($id)
         ];
 
-        return view('cms.request.verifikasi-operator', $data);
+        return view('cms.request.show', $data);
     }
 
     public function verifikasiOperator($id){

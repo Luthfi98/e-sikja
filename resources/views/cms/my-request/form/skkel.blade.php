@@ -187,7 +187,7 @@
                             @endphp
                             @if($documentFile)
                                 <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $documentFile->url) }}" target="_blank" class="btn btn-sm btn-info">
+                                    <a href="{{ asset( $documentFile->url) }}" target="_blank" class="btn btn-sm btn-info">
                                         <i class="fas fa-eye"></i> Lihat File
                                     </a>
                                 </div>

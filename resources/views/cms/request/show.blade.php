@@ -124,34 +124,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                @if($requestLetter->status == 'Diajukan')
-                                <div class="card shadow-sm mb-4">
-                                    <div class="card-body">
-                                        <h5 class="card-title border-bottom pb-2 mb-4">Verifikasi Pengajuan</h5>
-                                        <form action="{{ route('verifikasi-operator.update', $requestLetter->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group mb-3">
-                                                <label for="status" class="form-label">Status</label>
-                                                <select name="status" id="status" class="form-select" required>
-                                                    <option value="Diproses">Diproses</option>
-                                                    <option value="Ditolak">Ditolak</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="notes" class="form-label">Catatan</label>
-                                                <textarea name="notes" id="notes" class="form-control" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
-                                            </div>
-                                            <div class="form-group text-end">
-                                                <button type="submit" class="btn btn-primary">
-                                                    <i class="fas fa-save me-1"></i> Simpan
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                @endif
                             </div>
                         </div>
                     @else

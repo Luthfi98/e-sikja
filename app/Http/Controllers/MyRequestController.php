@@ -13,15 +13,22 @@ use App\Models\DocumentRequestLetter;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 
 class MyRequestController extends Controller
 {
+    protected string $pathUpload, $pathPublic;
+
     public function __construct()
     {
         if (Auth::user()->role != 'masyarakat') {
             return redirect('dashboard')->with('error', 'Anda tidak memiliki hak akses')->send();
         }
+
+        $this->pathUpload = 'uploads/documents/';
+        // $this->pathPublic = public_path($this->pathUpload);
+        
     }
     /**
      * Display a listing of the resource.
@@ -111,21 +118,23 @@ class MyRequestController extends Controller
             // Handle document uploads
             if ($request->hasFile('documents')) {
                 $documents = $request->file('documents');
-                
                 $requiredDocuments = json_decode($requestType->required_documents);
-                
+                $this->pathUpload = "$this->pathUpload/$requestType->code/";
+                $this->pathPublic = public_path($this->pathUpload) ?? $this->pathUpload;
                 foreach ($documents as $index => $document) {
                     if ($document->isValid()) {
-                        $path = $document->store('documents/request-letters', 'public');
+                        $documentName = Str::random(32) . '.' . $document->getClientOriginalExtension();
+                        $document->move($this->pathPublic, $documentName);
                         
                         DocumentRequestLetter::create([
                             'request_letter_id' => $requestLetter->id,
                             'name' => $requiredDocuments[$index] ?? 'Document ' . ($index + 1),
-                            'url' => $path,
+                            'url' => $this->pathUpload . $documentName,
                             'type' => $document->getClientOriginalExtension(),
                             'description' => "Dokumen $requiredDocuments[$index] untuk permohonan $requestType->name"
                         ]);
                     }
+
                 }
             }
 
@@ -177,9 +186,13 @@ class MyRequestController extends Controller
      */
     public function edit(string $id)
     {
+        $requestLetter = Auth::user()->requestLetters()->findOrFail($id);
+        if ($requestLetter->status != 'Diajukan') {
+            return redirect()->back()->with('error', 'Pengajuan tidak dapat diedit karena sudah diverifikasi');
+        }
         $data = [
             'title' => 'Edit Pengajuan',
-            'requestLetter' =>  Auth::user()->requestLetters()->findOrFail($id),
+            'requestLetter' =>  $requestLetter,
             'requestTypes' => RequestType::where('status', true)->get()
         ];
 
@@ -211,24 +224,26 @@ class MyRequestController extends Controller
             if ($request->hasFile('documents')) {
                 $documents = $request->file('documents');
                 $requiredDocuments = json_decode($requestType->required_documents);
-
+                $this->pathUpload = "$this->pathUpload/$requestType->code/";
+                $this->pathPublic = public_path($this->pathUpload) ?? $this->pathUpload;
                 
                 foreach ($documents as $index => $document) {
                     if ($document->isValid()) {
-                        $path = $document->store('documents/request-letters', 'public');
+                        $documentName = Str::random(32) . '.' . $document->getClientOriginalExtension();
+                        $document->move($this->pathPublic, $documentName);
                         
                         // Delete old document if exists
                         $oldDocument = $requestLetter->documentRequestLetters->where('name', $requiredDocuments[$index] ?? 'Document ' . ($index + 1))->first();
                         if ($oldDocument) {
-                            if (file_exists(storage_path('app/public/' . $oldDocument->url))) {
-                                unlink(storage_path('app/public/' . $oldDocument->url));
+                            if (file_exists(asset($oldDocument->url))) {
+                                unlink(asset($oldDocument->url));
                             }
-                            $oldDocument->update(['url' => $path]);
+                            $oldDocument->update(['url' => $this->pathUpload . $documentName]);
                         }else{
                             DocumentRequestLetter::create([
                                 'request_letter_id' => $requestLetter->id,
                                 'name' => $requiredDocuments[$index] ?? 'Document ' . ($index + 1),
-                                'url' => $path,
+                                'url' => $this->pathUpload . $documentName,
                                 'type' => $document->getClientOriginalExtension(),
                                 'description' => "Dokumen $requiredDocuments[$index] untuk permohonan $requestType->name"
                             ]);
@@ -236,6 +251,7 @@ class MyRequestController extends Controller
                     }
                 }
             }
+                
 
             // Send notification
             $operator = User::where('role', 'operator')->get();
