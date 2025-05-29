@@ -86,40 +86,38 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Pengajuan Terbaru</h6>
                 </div>
-                <div class="card-body">
+                               <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Tanggal</th>
+                                    <th>Nomor Pengajuan</th>
+                                    <th>Jenis Pengajuan</th>
                                     <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th>Tanggal Pengajuan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($latestRequests ?? [] as $pengajuan)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $pengajuan->nama }}</td>
-                                    <td>{{ $pengajuan->created_at->format('d/m/Y') }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $pengajuan->status == 'pending' ? 'warning' : ($pengajuan->status == 'approved' ? 'success' : 'danger') }}">
-                                            {{ $pengajuan->status == 'pending' ? 'Pending' : ($pengajuan->status == 'approved' ? 'Disetujui' : 'Ditolak') }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('data-pengajuan.show', $pengajuan->id) }}" class="btn btn-sm btn-info">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">Tidak ada data pengajuan</td>
-                                </tr>
-                                @endforelse
+                                @if(count($latestRequests) == 0)
+                                    <tr>
+                                        <td colspan="5" class="text-center">Belum ada pengajuan</td>
+                                    </tr>
+                                @else
+                                    @foreach($latestRequests as $index => $request)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $request->code }}</td>
+                                            <td>{{ $request->requestType->name }}</td>
+                                            <td>
+                                                <span class="badge bg-{{ $request->status == 'Diajukan' ? 'warning' : ($request->status == 'Diproses' ? 'info' : ($request->status == 'Selesai' ? 'success' : 'danger')) }}">
+                                                    {{ $request->status }}
+                                                </span>
+                                            </td>
+                                            <td>{{ date('d-m-Y', strtotime($request->created_at)) }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
