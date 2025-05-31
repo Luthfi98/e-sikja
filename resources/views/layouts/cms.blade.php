@@ -16,7 +16,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Dashboard' }} - {{ $setting['website_name'] }}</title>
      <link rel="icon" href="{{ asset('setting/' . $setting['favicon']) }}" type="image/x-icon') }}">
-    <meta name="description" content="{{ $setting['website_description'] ?? 'Website Sistem Layanan Surat Menyurat Desa' }}">
+    <meta name="description" content="{{ $setting['website_description'] ?? 'Website Sistem Layanan Surat Menyurat Kelurahan' }}">
 
 
     <!-- jQuery -->
@@ -99,12 +99,12 @@
 
             @else
                 <div class="menu-section">Menu Administrator </div>
-                <a href="{{ route('profil-desa.index') }}" class="{{ request()->is('profil-desa*') ? 'active' : '' }}">
+                <a href="{{ route('profil-kelurahan.index') }}" class="{{ request()->is('profil-kelurahan*') ? 'active' : '' }}">
                     <i class="fas fa-clipboard-list"></i> <span>Profil Instansi</span>
                 </a>
                 
-                <a href="{{ route('informasi-desa.index') }}" class="{{ request()->is('informasi-desa*') ? 'active' : '' }}">
-                    <i class="fas fa-info"></i> <span>Informasi Desa</span>
+                <a href="{{ route('informasi-kelurahan.index') }}" class="{{ request()->is('informasi-kelurahan*') ? 'active' : '' }}">
+                    <i class="fas fa-info"></i> <span>Informasi Kelurahan</span>
                 </a>
                 <a href="{{ route('data-masyarakat.index') }}" class="{{ request()->is('data-masyarakat*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> <span>Data Masyarakat</span>

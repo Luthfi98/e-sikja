@@ -12,7 +12,7 @@ return [
     'address' => 'Alamat',
     'rt' => 'RT',
     'rw' => 'RW',
-    'village' => 'Desa',
+    'village' => 'Desa/Kelurahan',
     'sub_district' => 'Kecamatan',
     'district' => 'Kabupaten',
     'province' => 'Provinsi',

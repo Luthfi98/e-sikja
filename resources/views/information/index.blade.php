@@ -8,7 +8,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title"></h3>
                     <div class="card-tools">
-                        <a href="{{ route('informasi-desa.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('informasi-kelurahan.create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah Informasi
                         </a>
                     </div>
@@ -82,7 +82,7 @@
         $('#informationTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('informasi-desa.index') }}",
+            ajax: "{{ route('informasi-kelurahan.index') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'image_preview', name: 'image', orderable: false, searchable: false},
@@ -122,7 +122,7 @@
             let $label = $toggle.siblings('.status-label');
             
             $.ajax({
-                url: `/informasi-desa/${id}/toggle-status`,
+                url: `/informasi-kelurahan/${id}/toggle-status`,
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -164,7 +164,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: `/informasi-desa/${id}`,
+                        url: `/informasi-kelurahan/${id}`,
                         type: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}'

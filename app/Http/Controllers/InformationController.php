@@ -29,10 +29,10 @@ class InformationController extends Controller
                 ->addColumn('action', function ($information) {
                     return '
                         <div class="btn-group">
-                            <a href="' . route('informasi-desa.show', $information->id) . '" class="btn btn-sm btn-info">
+                            <a href="' . route('informasi-kelurahan.show', $information->id) . '" class="btn btn-sm btn-info">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="' . route('informasi-desa.edit', $information->id) . '" class="btn btn-sm btn-warning">
+                            <a href="' . route('informasi-kelurahan.edit', $information->id) . '" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="' . $information->id . '">
@@ -55,7 +55,7 @@ class InformationController extends Controller
                 ->make(true);
         }
         $data = [
-            'title' => 'Informasi Desa'
+            'title' => 'Informasi Kelurahan'
         ];
 
         return view('information.index')->with($data);
@@ -92,7 +92,7 @@ class InformationController extends Controller
 
         Information::create($data);
 
-        return redirect()->route('informasi-desa.index')
+        return redirect()->route('informasi-kelurahan.index')
             ->with('success', 'Informasi berhasil ditambahkan');
     }
 
@@ -147,7 +147,7 @@ class InformationController extends Controller
 
         $information->update($data);
 
-        return redirect()->route('informasi-desa.index')
+        return redirect()->route('informasi-kelurahan.index')
             ->with('success', 'Informasi berhasil diperbarui');
     }
 

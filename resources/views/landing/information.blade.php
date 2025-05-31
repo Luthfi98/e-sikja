@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-5 mt-5">
-    <h1 class="section-title mb-4" style="margin-top: 20px;">Informasi Desa</h1>
+    <h1 class="section-title mb-4" style="margin-top: 20px;">Informasi Kelurahan</h1>
 
     <!-- Search Form -->
     <div class="row mb-4">

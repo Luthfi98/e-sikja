@@ -14,7 +14,7 @@
                         @endif
                     </h6>
                     <div>
-                        <a href="{{ route('informasi-desa.index') }}" class="btn btn-sm btn-secondary">
+                        <a href="{{ route('informasi-kelurahan.index') }}" class="btn btn-sm btn-secondary">
                             <i class="fas fa-arrow-left"></i> Kembali
                         </a>
                         <a href="{{ route('informasi.show', $information->slug) }}" target="_blank" class="btn btn-sm btn-primary">Preview</a>

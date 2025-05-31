@@ -7,11 +7,21 @@ use App\Models\Information;
 
 class HomeController extends Controller
 {
+    private function getSettings()
+    {
+        $settingsPath = public_path('setting/settings.json');
+        if (file_exists($settingsPath)) {
+            return json_decode(file_get_contents($settingsPath), true) ?? [];
+        }
+        return [];
+    }
     function index()
     {
         $data = [
             'title' => 'Beranda',
-            'informations' => Information::where('status', true)->with('user')->get()
+            'informations' => Information::where('status', true)->with('user')->get(),
+            'setting' => $this->getSettings(),
+            'profile' => $this->getSettings()['profile'] ?? []
         ];
         return view('landing.home')->with($data);
     }
@@ -62,12 +72,19 @@ class HomeController extends Controller
 
     public function submission()
     {
-        return view('landing.submission');
+        return view('landing.submission')->with([
+            'title' => 'Pengajuan Surat',
+            'setting' => $this->getSettings()
+        ]);
     }
 
     public function complaint()
     {
-        return view('landing.complaint');
+
+        return view('landing.complaint')->with([
+            'title' => 'Pengaduan Masyarakat',
+            'setting' => $this->getSettings()
+        ]);
     }
 
     public function profile()

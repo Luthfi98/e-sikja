@@ -66,7 +66,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a href="{{ route('informasi-desa.index') }}" class="text-decoration-none">
+            <a href="{{ route('informasi-kelurahan.index') }}" class="text-decoration-none">
                 <div class="dashboard-card">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>

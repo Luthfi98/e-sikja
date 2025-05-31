@@ -124,15 +124,15 @@ Route::middleware(['auth'])->group(function () {
     });
     // Route::resource('pengaduan-saya', MyComplaintController::class);
 
-    Route::prefix('informasi-desa')->group(function () {
-        Route::get('/', [InformationController::class, 'index'])->name('informasi-desa.index');
-        Route::get('/create', [InformationController::class, 'create'])->name('informasi-desa.create');
-        Route::post('/store', [InformationController::class, 'store'])->name('informasi-desa.store');
-        Route::get('/show/{id}', [InformationController::class, 'show'])->name('informasi-desa.show');
-        Route::get('/edit/{id}', [InformationController::class, 'edit'])->name('informasi-desa.edit');
-        Route::put('/update/{id}', [InformationController::class, 'update'])->name('informasi-desa.update');
-        Route::delete('/delete/{id}', [InformationController::class, 'destroy'])->name('informasi-desa.destroy');
-        Route::post('{id}/toggle-status', [InformationController::class, 'toggleStatus'])->name('informasi-desa.toggle-status');
+    Route::prefix('informasi-kelurahan')->group(function () {
+        Route::get('/', [InformationController::class, 'index'])->name('informasi-kelurahan.index');
+        Route::get('/create', [InformationController::class, 'create'])->name('informasi-kelurahan.create');
+        Route::post('/store', [InformationController::class, 'store'])->name('informasi-kelurahan.store');
+        Route::get('/show/{id}', [InformationController::class, 'show'])->name('informasi-kelurahan.show');
+        Route::get('/edit/{id}', [InformationController::class, 'edit'])->name('informasi-kelurahan.edit');
+        Route::put('/update/{id}', [InformationController::class, 'update'])->name('informasi-kelurahan.update');
+        Route::delete('/delete/{id}', [InformationController::class, 'destroy'])->name('informasi-kelurahan.destroy');
+        Route::post('{id}/toggle-status', [InformationController::class, 'toggleStatus'])->name('informasi-kelurahan.toggle-status');
     });
 
     Route::prefix('notifikasi')->group(function () {
@@ -155,8 +155,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings/store', [SettingController::class, 'save'])->name('settings.store');
 
-    Route::get('profil-desa', [SettingController::class, 'profile'])->name('profil-desa.index');
-    Route::post('profil-desa/store', [SettingController::class, 'saveProfile'])->name('profil-desa.store');
+    Route::get('profil-kelurahan', [SettingController::class, 'profile'])->name('profil-kelurahan.index');
+    Route::post('profil-kelurahan/store', [SettingController::class, 'saveProfile'])->name('profil-kelurahan.store');
     
     
 });

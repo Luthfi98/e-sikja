@@ -66,7 +66,7 @@
                             <div class="timeline-number">6</div>
                             <div class="timeline-content">
                                 <h6>Ambil Surat</h6>
-                                <p class="text-muted small">Ambil surat di kantor desa setelah disetujui</p>
+                                <p class="text-muted small">Ambil surat di kantor desa/kelurahan setelah disetujui</p>
                             </div>
                         </div>
                     </div>

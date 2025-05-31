@@ -14,7 +14,7 @@
                     </div>
                 @endif
                 <div class="card-body">
-                    <form action="{{ route('informasi-desa.update', $information->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('informasi-kelurahan.update', $information->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -84,7 +84,7 @@
 
                         <div class="row mt-4">
                             <div class="col-12 text-right">
-                                <a href="{{ route('informasi-desa.index') }}" class="btn btn-secondary">Kembali</a>
+                                <a href="{{ route('informasi-kelurahan.index') }}" class="btn btn-secondary">Kembali</a>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
     ClassicEditor
         .create(document.querySelector('#description'), {
             toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo'],
-            placeholder: 'Masukkan deskripsi informasi desa...'
+            placeholder: 'Masukkan deskripsi informasi desa/kelurahan...'
         })
         .catch(error => {
             console.error(error);

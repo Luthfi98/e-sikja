@@ -11,17 +11,17 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Desa Sukamaju">
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="{{ $profile['nama_instansi'] }}">
                     <div class="carousel-caption">
-                        <h1>Selamat Datang di Desa Sukamaju</h1>
-                        <p>Sistem Layanan Surat Menyurat Desa yang Modern dan Efisien</p>
+                        <h1>Selamat Datang di {{ $profile['nama_instansi'] }}</h1>
+                        <p>{{ $setting['website_description'] }}</p>
                         <a href="{{ route('register') }}" class="btn btn-hero text-white">
                             <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
                         </a>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Layanan Desa">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Layanan {{ $profile['nama_instansi'] }}">
                     <div class="carousel-caption">
                         <h1>Layanan Terpadu</h1>
                         <p>Pengajuan surat dan pengaduan dapat dilakukan secara online</p>
@@ -31,10 +31,10 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Potensi Desa">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Potensi {{ $profile['nama_instansi'] }}">
                     <div class="carousel-caption">
-                        <h1>Desa yang Maju</h1>
-                        <p>Mengembangkan potensi desa untuk kesejahteraan masyarakat</p>
+                        <h1>Kelurahan yang Maju</h1>
+                        <p>Mengembangkan potensi Kelurahan untuk kesejahteraan masyarakat</p>
                         <a href="{{ route('register') }}" class="btn btn-hero text-white">
                             <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
                         </a>
@@ -75,7 +75,7 @@
                     <div class="info-card">
                         <i class="fas fa-check-circle"></i>
                         <h3>3. Proses Verifikasi</h3>
-                        <p>Tim desa akan memverifikasi pengajuan Anda. Status dapat dicek melalui dashboard.</p>
+                        <p>Tim Kelurahan akan memverifikasi pengajuan Anda. Status dapat dicek melalui dashboard.</p>
                     </div>
                 </div>
             </div>
@@ -112,10 +112,10 @@
         </div>
     </section>
 
-    <!-- Informasi Desa Section -->
+    <!-- Informasi Kelurahan Section -->
     <section class="py-5" id="informasi">
         <div class="container">
-            <h2 class="section-title">Informasi Desa</h2>
+            <h2 class="section-title">Informasi Kelurahan</h2>
             <div class="info-scroll-container">
                 <div class="info-scroll-wrapper">
                 @foreach ($informations as $information)

@@ -13,7 +13,7 @@
                         <i class="fas fa-info-circle fa-3x text-primary"></i>
                     </div>
                     <h4 class="text-center mb-4">Informasi Pengaduan</h4>
-                    <p class="text-muted text-center">Layanan pengaduan tersedia untuk membantu masyarakat menyampaikan keluhan, saran, dan masukan terkait layanan desa.</p>
+                    <p class="text-muted text-center">Layanan pengaduan tersedia untuk membantu masyarakat menyampaikan keluhan, saran, dan masukan terkait layanan desa/kelurahan.</p>
                 </div>
             </div>
         </div>
@@ -77,8 +77,8 @@
                     <div class="mb-4">
                         <h6 class="text-primary"><i class="fas fa-phone me-2"></i>Kontak Darurat</h6>
                         <ul class="list-unstyled text-muted small">
-                            <li class="mb-2"><i class="fas fa-phone-alt me-2"></i>0812-3456-7890</li>
-                            <li><i class="fas fa-envelope me-2"></i>pengaduan@desa.id</li>
+                            <li class="mb-2"><i class="fas fa-phone-alt me-2"></i>{{ $setting['telepon'] ?? ($setting['whatsapp'] ?? '0213913') }}</li>
+                            <li><i class="fas fa-envelope me-2"></i>{{ $setting['email'] }}</li>
                         </ul>
                     </div>
 

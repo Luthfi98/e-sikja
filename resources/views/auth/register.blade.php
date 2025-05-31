@@ -1,9 +1,14 @@
+@php
+   $settingsPath = public_path('setting/settings.json');
+  $setting = json_decode(file_get_contents($settingsPath), true)??[];
+  $profile = $setting['profile']??[];
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar - Sistem Layanan Surat Menyurat Desa</title>
+    <title>Daftar - {{ $setting['website_description'] }}</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -137,7 +142,7 @@
                     <div class="logo">
                         <i class="fas fa-user-plus fa-3x text-primary"></i>
                     </div>
-                    <h3 class="register-title">Sistem Layanan Surat Menyurat Desa</h3>
+                    <h3 class="register-title">{{ $setting['website_description'] }}</h3>
                     
                     @if(session('error'))
                         <div class="alert alert-danger">

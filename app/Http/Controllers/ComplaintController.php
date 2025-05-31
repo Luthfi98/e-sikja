@@ -128,7 +128,7 @@ class ComplaintController extends Controller
                 'user_id' => Auth::id(),
                 'status' => $request->status,
                 'date' => now()->format('Y-m-d H:i:s'),
-                'note' => "Pengaduan diverifikasi oleh " . Auth::user()->name . ($request->notes ? ". Catatan: " . $request->notes : "")
+                'note' => "Pengaduan ($request->status == 'Ditolak' ?? 'diverifikasi')  oleh " . Auth::user()->name . ($request->notes ? ". Catatan: " . $request->notes : "")
             ];
 
             // Update complaint
@@ -137,17 +137,30 @@ class ComplaintController extends Controller
                 'histories' => json_encode($histories)
             ]);
 
-            $admins = User::where('role', 'admin')->get();
+            if ($request->status == 'Diproses') {
+                $admins = User::where('role', 'admin')->get();
 
-            foreach ($admins as $admin) {
+                foreach ($admins as $admin) {
+                    Notification::create([
+                        'user_id' => $admin->id,
+                        'title' => 'Pengaduan Baru',
+                        'text' => 'Pengaduan baru telah diverifikasi oleh ' . Auth::user()->name,
+                        'type' => 'Pengaduan',
+                        'link' => 'data-pengaduan/verifikasi-admin/' . $complaint->id
+                    ]);
+                }
+            }else{
+                // Notify the user who made the complaint
                 Notification::create([
-                    'user_id' => $admin->id,
-                    'title' => 'Pengaduan Baru',
-                    'text' => 'Pengaduan baru telah diverifikasi oleh ' . Auth::user()->name,
+                    'user_id' => $complaint->user_id,
+                    'title' => "Pengaduan $request->status",
+                    'text' => "Pengaduan Anda telah $request->status oleh ".Auth::user()->name.". Catatan: " . ($request->notes ?? 'Tidak ada catatan'),
                     'type' => 'Pengaduan',
-                    'link' => 'data-pengaduan/verifikasi-admin/' . $complaint->id
+                    'link' => 'pengaduan-saya/show/' . $complaint->id
                 ]);
             }
+
+            
 
             DB::commit();
             

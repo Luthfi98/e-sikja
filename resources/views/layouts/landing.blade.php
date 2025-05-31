@@ -1,7 +1,7 @@
 @php
-   $settingsPath = public_path('setting/settings.json');
-  $setting = json_decode(file_get_contents($settingsPath), true)??[];
-  $profile = $setting['profile']??[];
+$settingsPath = public_path('setting/settings.json');
+$setting = json_decode(file_get_contents($settingsPath), true)??[];
+$profile = $setting['profile']??[];
 @endphp
 
 
@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Beranda' ?> - Sistem Layanan Surat Menyurat Desa</title>
+    <title><?= $title ?? 'Beranda' ?> - {{ $setting['website_description'] }}</title>
      <link rel="icon" href="{{ asset('setting/' . $setting['favicon']) }}" type="image/x-icon') }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -82,10 +82,10 @@
                 <div class="col-lg-4 col-md-12">
                     <h5>Ikuti Kami</h5>
                     <div class="social-links mb-2">
-                        <a href="#" class="text-dark"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-dark"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="text-dark"><i class="fab fa-twitter"></i></a>
+                        <a href="{{ $setting['facebook']??'#' }}" class="text-dark"><i class="fab fa-facebook-f"></i></a>
+                        <a href="{{ $setting['instagram']??'#' }}" class="text-dark"><i class="fab fa-instagram"></i></a>
+                        <a href="{{ $setting['youtube']??'#' }}" class="text-dark"><i class="fab fa-youtube"></i></a>
+                        <a href="{{ $setting['twitter']??'#' }}" class="text-dark"><i class="fab fa-twitter"></i></a>
                     </div>
                     <p class="small">Dapatkan informasi terbaru melalui media sosial kami</p>
                 </div>
