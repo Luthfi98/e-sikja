@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone', 15)->nullable();
             $table->string('role')->default('masyarakat');
             $table->foreignId('resident_id')->nullable()->constrained()->nullOnDelete();
-            $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->enum('status', ['Aktif', 'Tidak Aktif', 'Menunggu Verifikasi'])->default('Menunggu Verifikasi');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
